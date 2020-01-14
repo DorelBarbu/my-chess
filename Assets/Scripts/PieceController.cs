@@ -22,7 +22,7 @@ public class PieceController : MonoBehaviour
             if(isDragging == true)
             {
                 isDragging = false;
-                SnapBackToOriginalPosition();
+                //SnapBackToOriginalPosition();
             }
           
         }
@@ -76,17 +76,19 @@ public class PieceController : MonoBehaviour
                 previousSquare.ResetSprite();
             }
             Square currentSquare = overlappingSquare.GetComponent<Square>();
-            if(currentSquare)
+            if (currentSquare)
             {
                 currentSquare.Highlight();
                 previousSquare = currentSquare;
             }
+       
             yield return null;
         }
 
         if(previousSquare)
         {
             previousSquare.ResetSprite();
+            PlaceOnSquare(previousSquare);
         }
     }
            
