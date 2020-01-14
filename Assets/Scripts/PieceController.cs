@@ -41,7 +41,12 @@ public class PieceController : MonoBehaviour
 
     private void SnapBackToOriginalPosition()
     {
-        transform.parent = parentTransform;
+        PlaceOnSquare(parentTransform.gameObject.GetComponent<Square>());
+    }
+
+    private void PlaceOnSquare(Square square)
+    {
+        transform.parent = square.transform;
         transform.localPosition = Vector3.zero;
     }
 
