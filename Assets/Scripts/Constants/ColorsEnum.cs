@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PieceControllerType
+public enum ColorsEnum
 {
-    QUEEN,
-    ROOK
+    BLACK,
+    WHITE
 }

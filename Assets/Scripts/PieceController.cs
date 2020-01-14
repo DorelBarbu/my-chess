@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +6,7 @@ public class PieceController : MonoBehaviour
 {
     public Piece piece;
     private Camera cam;
+    private bool isDragging;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,23 +16,69 @@ public class PieceController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetMouseButtonUp(Constants.LEFT_MOUSE_BUTTON))
+        {
+            if(isDragging == true)
+            {
+                isDragging = false;
+                SnapBackToOriginalPosition();
+            }
+          
+        }
 
     }
 
     /**
      * Make the piece follow the cursor
      */
-    private void MoveToCursor()
+    private void MoveToCursor(Vector3 newPosition)
     {
         //Decoupling the piece from the parent square
         transform.parent = null;
-        Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
-        newPosition.z = 0;
         transform.position = newPosition;
+    }
+
+    private void SnapBackToOriginalPosition()
+    {
+
     }
 
     private void OnMouseDrag()
     {
-        MoveToCursor();
+        isDragging = true;
+        StartCoroutine("ChangeSquaresAppearance");
+        Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+        newPosition.z = 1;
+        MoveToCursor(newPosition);
     }
+
+    private IEnumerator ChangeSquaresAppearance()
+    {
+        Square previousSquare = null;
+        while(isDragging)
+        {
+            Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+            newPosition.z = 1;
+            GameObject overlappingSquare = GetOverlappingSquare(newPosition.x, newPosition.y);
+            if(previousSquare)
+            {
+                previousSquare.ResetSprite();
+            }
+            Square currentSquare = overlappingSquare.GetComponent<Square>();
+            if(currentSquare)
+            {
+                currentSquare.Highlight();
+                previousSquare = currentSquare;
+            }
+            yield return null;
+        }
+    }
+           
+    
+    private GameObject GetOverlappingSquare(float x, float y)
+    {
+        Collider2D col = Physics2D.OverlapPoint(new Vector2(x, y));
+        return col.gameObject;
+    }
+    
 }

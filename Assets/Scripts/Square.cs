@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class Square : MonoBehaviour
 {
-    [SerializeField] private bool color; //true - black, false - white
-    [SerializeField] private Vector2 coordinates; //position of the piece in chess notation, e.g. A8, B3
+    [SerializeField] private ColorsEnum color; //true - black, false - white
+    [SerializeField] public Vector2 coordinates; //position of the piece in chess notation, e.g. A8, B3
     [SerializeField] private bool isOccupied;
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("The color of the square is: " + color);
+        
         
     }
 
@@ -19,5 +19,28 @@ public class Square : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void ChangeSprite(Sprite newSprite)
+    {
+        gameObject.GetComponent<SpriteRenderer>().sprite = newSprite;
+    }
+
+    public void Highlight()
+    {
+        UIManager uIManager = GameObject.Find(Constants.UIMANAGER).GetComponent<UIManager>();
+        ChangeSprite(uIManager.highlightedSquareSprite);
+    }
+
+    public void ResetSprite()
+    {
+        if(color == ColorsEnum.BLACK)
+        {
+            ChangeSprite(GameObject.Find(Constants.UIMANAGER).GetComponent<UIManager>().blackSquareSprite);
+        }
+        else
+        {
+            ChangeSprite(GameObject.Find(Constants.UIMANAGER).GetComponent<UIManager>().whiteSquareSprite);
+        }
     }
 }
