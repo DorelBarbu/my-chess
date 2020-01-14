@@ -7,6 +7,7 @@ public class PieceController : MonoBehaviour
     public Piece piece;
     private Camera cam;
     private bool isDragging;
+    private Transform parentTransform;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,13 +41,17 @@ public class PieceController : MonoBehaviour
 
     private void SnapBackToOriginalPosition()
     {
-
+        transform.parent = parentTransform;
+        transform.localPosition = Vector3.zero;
     }
 
     private void OnMouseDrag()
     {
+        if(isDragging == false)
+        {
+            parentTransform = transform.parent;
+        }
         isDragging = true;
-        StartCoroutine("ChangeSquaresAppearance");
         Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
         newPosition.z = 1;
         MoveToCursor(newPosition);
@@ -71,6 +76,10 @@ public class PieceController : MonoBehaviour
                 previousSquare = currentSquare;
             }
             yield return null;
+        }
+        if(previousSquare)
+        {
+            previousSquare.ResetSprite();
         }
     }
            
