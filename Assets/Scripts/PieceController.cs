@@ -55,6 +55,7 @@ public class PieceController : MonoBehaviour
         Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
         newPosition.z = 1;
         MoveToCursor(newPosition);
+        StartCoroutine("ChangeSquaresAppearance");
     }
 
     private IEnumerator ChangeSquaresAppearance()
@@ -77,6 +78,7 @@ public class PieceController : MonoBehaviour
             }
             yield return null;
         }
+
         if(previousSquare)
         {
             previousSquare.ResetSprite();
