@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PieceController : MonoBehaviour
+public class Draggable : MonoBehaviour
 {
+    public DraggableType draggableType;
     public Piece piece;
     private Camera cam;
     private bool isDragging;
     private Transform parentTransform;
+    private IDraggableHandler draggableHandler;
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
+        draggableHandler = DraggableHandlerFactory.CreateInstance(draggableType);
     }
 
     // Update is called once per frame
@@ -22,7 +25,6 @@ public class PieceController : MonoBehaviour
             if(isDragging == true)
             {
                 isDragging = false;
-                //SnapBackToOriginalPosition();
             }
           
         }
@@ -60,6 +62,7 @@ public class PieceController : MonoBehaviour
         Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
         newPosition.z = 1;
         MoveToCursor(newPosition);
+        draggableHandler.HandleDragStart();
         StartCoroutine("ChangeSquaresAppearance");
     }
 
