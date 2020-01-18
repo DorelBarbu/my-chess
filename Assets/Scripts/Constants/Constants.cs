@@ -10,4 +10,5 @@ public static class Constants
     public static string QUEEN = "queen";
     public static string SQUARE = "Square";
     public static string UIMANAGER = "UiManager";
+    public static int TABLE_SIZE = 8;
 }

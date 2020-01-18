@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Piece : MonoBehaviour {
-    [SerializeField] private ColorsEnum color;
+public interface IPiece
+{
+    Vector2[] GetAllowedMoves();
 }
