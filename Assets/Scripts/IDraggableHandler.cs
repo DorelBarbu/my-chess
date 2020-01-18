@@ -5,4 +5,6 @@ using UnityEngine;
 public interface IDraggableHandler
 {
     void HandleDragStart();
+    void HandleDragFinnish();
+    IEnumerator RunDurringDragging();
 }

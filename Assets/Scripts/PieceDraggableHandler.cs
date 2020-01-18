@@ -4,33 +4,51 @@ using UnityEngine;
 
 public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
 {
-    public void HandleDragStart()
+    private Camera cam;
+    private Square previousSquare;
+
+    private void Awake()
     {
-        Debug.Log("Drag start handled in PieceDraggableHandler");
+        cam = Camera.main;
+        previousSquare = null;
     }
 
-    private IEnumerator ChangeSquaresAppearance()
-    {
-        Square previousSquare = null;
-        while (isDragging)
-        {
-            Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
-            newPosition.z = 1;
-            GameObject overlappingSquare = GetOverlappingSquare(newPosition.x, newPosition.y);
-            if (previousSquare)
-            {
-                previousSquare.ResetSprite();
-            }
-            Square currentSquare = overlappingSquare.GetComponent<Square>();
-            if (currentSquare)
-            {
-                currentSquare.Highlight();
-                previousSquare = currentSquare;
-            }
+    public void HandleDragStart() {}
 
-            yield return null;
+    public IEnumerator RunDurringDragging()
+    {
+        Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+        newPosition.z = 1;
+        GameObject overlappingSquare = GetOverlappingSquare(newPosition.x, newPosition.y);
+        if (previousSquare)
+        {
+            previousSquare.ResetSprite();
+        }
+        Square currentSquare = overlappingSquare.GetComponent<Square>();
+        if (currentSquare)
+        {
+            currentSquare.Highlight();
+            previousSquare = currentSquare;
         }
 
+        yield return null;
+    }
+
+    private void PlaceOnSquare(Square square)
+    {
+        transform.parent = square.transform;
+        transform.localPosition = Vector3.zero;
+    }
+
+
+    private GameObject GetOverlappingSquare(float x, float y)
+    {
+        Collider2D col = Physics2D.OverlapPoint(new Vector2(x, y));
+        return col.gameObject;
+    }
+
+    public void HandleDragFinnish()
+    {
         if (previousSquare)
         {
             previousSquare.ResetSprite();

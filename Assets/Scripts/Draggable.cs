@@ -14,7 +14,12 @@ public class Draggable : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
-        draggableHandler = DraggableHandlerFactory.CreateInstance(draggableType);
+        draggableHandler = DraggableHandlerFactory.CreateInstance(draggableType, gameObject);
+    }
+
+    public bool IsDragging()
+    {
+        return isDragging;
     }
 
     // Update is called once per frame
@@ -22,13 +27,13 @@ public class Draggable : MonoBehaviour
     {
         if(Input.GetMouseButtonUp(Constants.LEFT_MOUSE_BUTTON))
         {
+            // Stop the dragging
             if(isDragging == true)
             {
                 isDragging = false;
-            }
-          
+                draggableHandler.HandleDragFinnish();
+            } 
         }
-
     }
 
     /**
@@ -41,67 +46,29 @@ public class Draggable : MonoBehaviour
         transform.position = newPosition;
     }
 
-    private void SnapBackToOriginalPosition()
-    {
-        PlaceOnSquare(parentTransform.gameObject.GetComponent<Square>());
-    }
-
-    private void PlaceOnSquare(Square square)
-    {
-        transform.parent = square.transform;
-        transform.localPosition = Vector3.zero;
-    }
-
     private void OnMouseDrag()
     {
         if(isDragging == false)
         {
             parentTransform = transform.parent;
+            draggableHandler.HandleDragStart();
         }
         isDragging = true;
         Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
         newPosition.z = 1;
         MoveToCursor(newPosition);
-        draggableHandler.HandleDragStart();
-        StartCoroutine("ChangeSquaresAppearance");
+        StartCoroutine("StartUpdating");
     }
 
-    private IEnumerator ChangeSquaresAppearance()
+    private IEnumerator StartUpdating()
     {
-        Square previousSquare = null;
         while(isDragging)
         {
-            Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
-            newPosition.z = 1;
-            GameObject overlappingSquare = GetOverlappingSquare(newPosition.x, newPosition.y);
-            if(previousSquare)
-            {
-                previousSquare.ResetSprite();
-            }
-            Square currentSquare = overlappingSquare.GetComponent<Square>();
-            if (currentSquare)
-            {
-                currentSquare.Highlight();
-                previousSquare = currentSquare;
-            }
-       
-            yield return null;
+            yield return draggableHandler.RunDurringDragging();
         }
 
-        if(previousSquare)
-        {
-            previousSquare.ResetSprite();
-            PlaceOnSquare(previousSquare);
-        }
     }
-           
     
-    private GameObject GetOverlappingSquare(float x, float y)
-    {
-        Collider2D col = Physics2D.OverlapPoint(new Vector2(x, y));
-        return col.gameObject;
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Collision detected");
