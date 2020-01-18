@@ -6,7 +6,8 @@ using UnityEngine;
 public class Square : MonoBehaviour
 {
     [SerializeField] private ColorsEnum color; //true - black, false - white
-    [SerializeField] public Vector2 coordinates; //position of the piece in chess notation, e.g. A8, B3
+    [SerializeField] char x;
+    [SerializeField] char y;
     [SerializeField] private bool isOccupied;
     // Start is called before the first frame update
     void Start()
