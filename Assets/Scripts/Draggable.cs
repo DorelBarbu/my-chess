@@ -35,17 +35,6 @@ public class Draggable : MonoBehaviour
             } 
         }
     }
-
-    /**
-     * Make the piece follow the cursor
-     */
-    private void MoveToCursor(Vector3 newPosition)
-    {
-        //Decoupling the piece from the parent square
-        transform.parent = null;
-        transform.position = newPosition;
-    }
-
     private void OnMouseDrag()
     {
         if(isDragging == false)
@@ -56,7 +45,7 @@ public class Draggable : MonoBehaviour
         isDragging = true;
         Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
         newPosition.z = 1;
-        MoveToCursor(newPosition);
+        Utils.MoveToCursor(gameObject, newPosition);
         StartCoroutine("StartUpdating");
     }
 
