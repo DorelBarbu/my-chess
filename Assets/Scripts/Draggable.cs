@@ -8,7 +8,6 @@ public class Draggable : MonoBehaviour
     public Piece piece;
     private Camera cam;
     private bool isDragging;
-    private Transform parentTransform;
     private IDraggableHandler draggableHandler;
     // Start is called before the first frame update
     void Start()
@@ -39,7 +38,6 @@ public class Draggable : MonoBehaviour
     {
         if(isDragging == false)
         {
-            parentTransform = transform.parent;
             draggableHandler.HandleDragStart();
         }
         isDragging = true;

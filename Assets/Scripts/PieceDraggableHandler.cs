@@ -6,6 +6,7 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
 {
     private Camera cam;
     private Square previousSquare;
+    private Transform parentTransform;
 
     private void Awake()
     {
@@ -15,6 +16,7 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
     public void HandleDragStart()
     {
         previousSquare = null;
+        parentTransform = transform.parent;
     }
 
     public IEnumerator RunDurringDragging()
@@ -41,7 +43,16 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
         if (previousSquare)
         {
             previousSquare.ResetSprite();
-            Utils.PlaceOnObject(gameObject, previousSquare.gameObject);
+            if(previousSquare.CanMoveTo == true)
+            {
+                Utils.PlaceOnObject(gameObject, previousSquare.gameObject);
+            }
+            else
+            {
+                Debug.Log("Cant move here");
+                transform.parent = parentTransform;
+                transform.localPosition = Vector3.zero;
+            }
         }
     }
 }

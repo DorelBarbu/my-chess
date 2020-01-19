@@ -6,20 +6,33 @@ using UnityEngine;
 public class Square : MonoBehaviour
 {
     [SerializeField] private ColorsEnum color; //true - black, false - white
-    [SerializeField] char x;
-    [SerializeField] char y;
+    [SerializeField] private char x;
+    [SerializeField] private char y;
     [SerializeField] private bool isOccupied;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private bool canMoveTo = false;
+    private UIManager uiManager;
+
+    public bool CanMoveTo
     {
-        
-        
+        set { canMoveTo = value; }
+        get { return canMoveTo; }
     }
 
-    // Update is called once per frame
-    void Update()
+    public char X
     {
-        
+        get { return x; }
+        set { x = value; }
+    }
+
+    public char Y
+    {
+        get { return y; }
+        set { y = value; }
+    }
+
+    private void Awake()
+    {
+        uiManager = GameObject.Find(Constants.UIMANAGER).GetComponent<UIManager>();
     }
 
     private void ChangeSprite(Sprite newSprite)
@@ -29,19 +42,30 @@ public class Square : MonoBehaviour
 
     public void Highlight()
     {
-        UIManager uIManager = GameObject.Find(Constants.UIMANAGER).GetComponent<UIManager>();
-        ChangeSprite(uIManager.highlightedSquareSprite);
+        ChangeSprite(uiManager.highlightedSquareSprite);
     }
 
     public void ResetSprite()
     {
-        if(color == ColorsEnum.BLACK)
+        if(canMoveTo == true)
         {
-            ChangeSprite(GameObject.Find(Constants.UIMANAGER).GetComponent<UIManager>().blackSquareSprite);
+            MarkAsAvailableForMove();
         }
         else
         {
-            ChangeSprite(GameObject.Find(Constants.UIMANAGER).GetComponent<UIManager>().whiteSquareSprite);
+            if (color == ColorsEnum.BLACK)
+            {
+                ChangeSprite(uiManager.blackSquareSprite);
+            }
+            else
+            {
+                ChangeSprite(uiManager.whiteSquareSprite);
+            }
         }
+    }
+
+    public void MarkAsAvailableForMove()
+    {
+        ChangeSprite(uiManager.candidateSquareSprite);
     }
 }

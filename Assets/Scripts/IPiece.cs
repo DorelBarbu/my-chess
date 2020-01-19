@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IPiece
 {
-    Vector2[] GetAllowedMoves();
+    List<List<Vector2>> GetAllowedMoves();
 }

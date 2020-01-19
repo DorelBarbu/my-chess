@@ -22,4 +22,27 @@ public class Utils
         gameObject.transform.parent = null;
         gameObject.transform.position = newPosition;
     }
+
+    public static Vector2 ConvertToCartesian(char line, char column)
+    {
+        Vector2 convertedCoordinates = new Vector2();
+        convertedCoordinates.x = Constants.TABLE_SIZE - (int)(line-'0');
+        convertedCoordinates.y = column - 'A';
+        return convertedCoordinates;
+    }
+
+    public static char ConvertLineToChessNotation(int line)
+    {
+        return (char)('0' + Constants.TABLE_SIZE - line);
+    }
+
+    public static char ConvertColumnToChessNotation(int column)
+    {
+        return (char)('A' + column);
+    }
+
+    public static bool IsInsideBoard(int line, int column)
+    {
+        return 0 <= line && line < Constants.TABLE_SIZE && 0 <= column && column < Constants.TABLE_SIZE;
+    }
 }
