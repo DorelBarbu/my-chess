@@ -2316,7 +2316,7 @@ GameObject:
   - component: {fileID: 718427999}
   - component: {fileID: 718427998}
   m_Layer: 0
-  m_Name: WQ
+  m_Name: BQ
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2348,7 +2348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1016f9df41d304e8f1baa9560f5d9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 1
+  color: 0
   type: 0
   coordinates: {x: 0, y: 0}
 --- !u!61 &718427999

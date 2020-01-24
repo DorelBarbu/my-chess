@@ -49,8 +49,14 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
         if (previousSquare)
         {
             previousSquare.ResetSprite();
+            previousSquare.GetPiece();
             if(previousSquare.CanMoveTo == true)
             {
+                Piece overlappingPiece = previousSquare.GetPiece();
+                if(overlappingPiece)
+                {
+                    Destroy(overlappingPiece.gameObject);
+                }
                 parentTransform.gameObject.GetComponent<Square>().SetOccupied(false);
                 Utils.PlaceOnObject(gameObject, previousSquare.gameObject);
                 previousSquare.SetOccupied(true);

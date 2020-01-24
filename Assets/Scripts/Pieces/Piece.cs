@@ -52,12 +52,18 @@ public class Piece : MonoBehaviour {
                 if (Utils.IsInsideBoard(nextX, nextY))
                 {
                     Square square = Board.GetSquareAtPosition(Utils.ConvertLineToChessNotation(nextX), Utils.ConvertColumnToChessNotation(nextY));
-                    if (square.GetOccupied() == false)
+                    Piece piece = square.GetPiece();
+                    if (square.GetOccupied() == false || piece.GetColor() != color)
                     {
                         square.MarkAsAvailableForMove();
                         greenSquares.Add(square);
                     }
                     else
+                    {
+                        break;
+                    }
+
+                    if(piece && piece.GetColor() != color)
                     {
                         break;
                     }
@@ -68,7 +74,10 @@ public class Piece : MonoBehaviour {
         Board.SetGreenSquares(greenSquares);
     }
 
-    
+    public ColorsEnum GetColor()
+    {
+        return color;
+    }
 
 
 

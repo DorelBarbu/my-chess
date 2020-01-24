@@ -79,4 +79,14 @@ public class Square : MonoBehaviour
     {
         return isOccupied;
     }
+
+    public Piece GetPiece()
+    {
+        Piece piece = null;
+        if(transform.childCount > 0)
+        {
+            piece = transform.GetChild(0).gameObject.GetComponent<Piece>();
+        }
+        return piece;
+    }
 }
