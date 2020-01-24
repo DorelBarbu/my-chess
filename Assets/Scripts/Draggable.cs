@@ -5,7 +5,6 @@ using UnityEngine;
 public class Draggable : MonoBehaviour
 {
     public DraggableType draggableType;
-    public Piece piece;
     private Camera cam;
     private bool isDragging;
     private IDraggableHandler draggableHandler;

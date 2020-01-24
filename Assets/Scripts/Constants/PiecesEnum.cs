@@ -5,5 +5,9 @@ using UnityEngine;
 public enum PieceControllerType
 {
     QUEEN,
-    ROOK
+    ROOK,
+    KNIGHT,
+    BISHOP,
+    PAWN,
+    KING
 }

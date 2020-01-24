@@ -40,17 +40,4 @@ public class Board : MonoBehaviour
         char[] arr = { line, column };
         return SquareMapping[new string(arr)];
     }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

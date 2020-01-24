@@ -67,5 +67,16 @@ public class Square : MonoBehaviour
     public void MarkAsAvailableForMove()
     {
         ChangeSprite(uiManager.candidateSquareSprite);
+        canMoveTo = true;
+    }
+
+    public void SetOccupied(bool occupiedValue)
+    {
+        isOccupied = occupiedValue;
+    }
+
+    public bool GetOccupied()
+    {
+        return isOccupied;
     }
 }

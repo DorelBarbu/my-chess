@@ -15,10 +15,15 @@ public class Piece : MonoBehaviour {
         allowedMovesDeltas = piece.GetAllowedMoves();
     }
 
-    private void MatchPiecePositionToSquare()
+    public void MatchPiecePositionToSquare()
     {
-        Square containingSquare = transform.parent.gameObject.GetComponent<Square>();
-        coordinates = Utils.ConvertToCartesian(containingSquare.X, containingSquare.Y);
+        if(transform.parent)
+        {
+            Square containingSquare = transform.parent.gameObject.GetComponent<Square>();
+            coordinates = Utils.ConvertToCartesian(containingSquare.X, containingSquare.Y);
+            containingSquare.SetOccupied(true);
+        }
+        
     }
 
     private void Start()
@@ -26,18 +31,11 @@ public class Piece : MonoBehaviour {
         MatchPiecePositionToSquare();
     }
 
-    private void Update()
+    private void OnMouseDown()
     {
         if (Input.GetMouseButtonDown(Constants.LEFT_MOUSE_BUTTON))
         {
             DrawTrailOfPossibleMoves();
-        }
-
-        if (Input.GetMouseButtonUp(Constants.LEFT_MOUSE_BUTTON))
-        {
-            Board.ClearGreenSquares();
-            Board.SetGreenSquares(null);
-            MatchPiecePositionToSquare();
         }
     }
 
@@ -50,13 +48,21 @@ public class Piece : MonoBehaviour {
             {
                 int nextX = (int)coordinates.x + (int)v.x;
                 int nextY = (int)coordinates.y + (int)v.y;
+
                 if (Utils.IsInsideBoard(nextX, nextY))
                 {
                     Square square = Board.GetSquareAtPosition(Utils.ConvertLineToChessNotation(nextX), Utils.ConvertColumnToChessNotation(nextY));
-                    square.MarkAsAvailableForMove();
-                    square.CanMoveTo = true;
-                    greenSquares.Add(square);
+                    if (square.GetOccupied() == false)
+                    {
+                        square.MarkAsAvailableForMove();
+                        greenSquares.Add(square);
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
+             
             }
         }
         Board.SetGreenSquares(greenSquares);
