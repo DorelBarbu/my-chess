@@ -35,48 +35,23 @@ public class Piece : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(Constants.LEFT_MOUSE_BUTTON))
         {
-            DrawTrailOfPossibleMoves();
+            UIManager.DrawTrailOfPossibleMoves(gameObject);
         }
-    }
-
-    public void DrawTrailOfPossibleMoves()
-    {
-        List<Square> greenSquares = new List<Square>();
-        foreach (List<Vector2> direction in allowedMovesDeltas)
-        {
-            foreach (Vector2 v in direction)
-            {
-                int nextX = (int)coordinates.x + (int)v.x;
-                int nextY = (int)coordinates.y + (int)v.y;
-
-                if (Utils.IsInsideBoard(nextX, nextY))
-                {
-                    Square square = Board.GetSquareAtPosition(Utils.ConvertLineToChessNotation(nextX), Utils.ConvertColumnToChessNotation(nextY));
-                    Piece piece = square.GetPiece();
-                    if (square.GetOccupied() == false || piece.GetColor() != color)
-                    {
-                        square.MarkAsAvailableForMove();
-                        greenSquares.Add(square);
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                    if(piece && piece.GetColor() != color)
-                    {
-                        break;
-                    }
-                }
-             
-            }
-        }
-        Board.SetGreenSquares(greenSquares);
     }
 
     public ColorsEnum GetColor()
     {
         return color;
+    }
+
+    public List<List<Vector2>> GetAllowedMovesDeltas()
+    {
+        return allowedMovesDeltas;
+    }
+
+    public Vector2 GetCoordinates()
+    {
+        return coordinates;
     }
 
 
