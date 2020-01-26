@@ -89,4 +89,9 @@ public class Square : MonoBehaviour
         }
         return piece;
     }
+
+    public bool IsAvailableForMove(ColorsEnum pieceColor)
+    {
+        return isOccupied == false || GetPiece().GetColor() != pieceColor;
+    }
 }

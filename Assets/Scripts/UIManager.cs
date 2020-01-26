@@ -12,10 +12,9 @@ public class UIManager : MonoBehaviour
 
     public static void DrawTrailOfPossibleMoves(GameObject pieceObj)
     {
-        Piece piece = pieceObj.GetComponent<Piece>();
-        List < List < Vector2 >> allowedMovesDeltas = piece.GetAllowedMovesDeltas();
-        Vector2 coordinates = piece.GetCoordinates();
-        ColorsEnum color = piece.GetColor();
+        Piece currentPiece = pieceObj.GetComponent<Piece>();
+        List < List < Vector2 >> allowedMovesDeltas = currentPiece.GetAllowedMovesDeltas();
+        Vector2 coordinates = currentPiece.GetCoordinates();
 
         List<Square> greenSquares = new List<Square>();
 
@@ -32,19 +31,14 @@ public class UIManager : MonoBehaviour
                     char nextYChessNotation = Utils.ConvertColumnToChessNotation(nextY);
 
                     Square square = Board.GetSquareAtPosition(nextXChessNotation, nextYChessNotation);
-                    Piece nextPiece = square.GetPiece();
 
-                    if (square.GetOccupied() == false || nextPiece.GetColor() != color)
+                    if (square.IsAvailableForMove(currentPiece.GetColor()))
                     {
                         square.MarkAsAvailableForMove();
                         greenSquares.Add(square);
                     }
-                    else
-                    {
-                        break;
-                    }
 
-                    if (nextPiece && nextPiece.GetColor() != color)
+                    if (square.GetPiece())
                     {
                         break;
                     }
