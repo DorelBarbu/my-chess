@@ -10,6 +10,7 @@ public class Square : MonoBehaviour
     [SerializeField] private char y;
     [SerializeField] private bool isOccupied;
     [SerializeField] private bool canMoveTo = false;
+    private GameObject highlightSquare;
     private UIManager uiManager;
 
     public bool CanMoveTo
@@ -47,26 +48,33 @@ public class Square : MonoBehaviour
 
     public void ResetSprite()
     {
-        if(canMoveTo == true)
+        if(canMoveTo == false)
+            Destroy(this.highlightSquare);
+
+        if (color == ColorsEnum.BLACK)
         {
-            MarkAsAvailableForMove();
+            ChangeSprite(uiManager.blackSquareSprite);
         }
         else
         {
-            if (color == ColorsEnum.BLACK)
-            {
-                ChangeSprite(uiManager.blackSquareSprite);
-            }
-            else
-            {
-                ChangeSprite(uiManager.whiteSquareSprite);
-            }
+            ChangeSprite(uiManager.whiteSquareSprite);
         }
+    }
+
+    private void CreateHighlightSquare()
+    {
+        GameObject highlightSquare = new GameObject("Square");
+        highlightSquare.AddComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = highlightSquare.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = uiManager.candidateSquareSprite;
+        spriteRenderer.sortingOrder = 3;
+        Utils.PlaceOnObject(highlightSquare, gameObject);
+        this.highlightSquare = highlightSquare;
     }
 
     public void MarkAsAvailableForMove()
     {
-        ChangeSprite(uiManager.candidateSquareSprite);
+        CreateHighlightSquare();
         canMoveTo = true;
     }
 
