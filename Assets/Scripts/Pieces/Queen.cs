@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Queen : IPiece
 {
-    private List<Vector2> allowedMovesDeltas;
     public List<List<Vector2>> GetAllowedMoves()
     {
         List<List<Vector2>> moves = new List<List<Vector2>>();

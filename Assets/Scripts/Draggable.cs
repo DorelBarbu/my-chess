@@ -8,6 +8,13 @@ public class Draggable : MonoBehaviour
     private Camera cam;
     private bool isDragging;
     private IDraggableHandler draggableHandler;
+    [SerializeField] public bool draggingEnabled;
+
+    public bool DraggingEnabled
+    {
+        get { return draggingEnabled;  }
+        set { draggingEnabled = value;  }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -35,15 +42,19 @@ public class Draggable : MonoBehaviour
     }
     private void OnMouseDrag()
     {
-        if(isDragging == false)
+        if(DraggingEnabled == true)
         {
-            draggableHandler.HandleDragStart();
+            if (isDragging == false)
+            {
+                draggableHandler.HandleDragStart();
+            }
+            isDragging = true;
+            Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+            newPosition.z = 1;
+            Utils.MoveToCursor(gameObject, newPosition);
+            StartCoroutine("StartUpdating");
         }
-        isDragging = true;
-        Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
-        newPosition.z = 1;
-        Utils.MoveToCursor(gameObject, newPosition);
-        StartCoroutine("StartUpdating");
+      
     }
 
     private IEnumerator StartUpdating()

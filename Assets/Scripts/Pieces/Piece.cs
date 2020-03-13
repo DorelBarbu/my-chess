@@ -35,7 +35,7 @@ public class Piece : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(Constants.LEFT_MOUSE_BUTTON))
         {
-            UIManager.DrawTrailOfPossibleMoves(gameObject);
+            //UIManager.DrawTrailOfPossibleMoves(gameObject);
         }
     }
 

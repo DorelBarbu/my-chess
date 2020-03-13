@@ -6,6 +6,10 @@ public class Board : MonoBehaviour
 {
     private static Dictionary<string, Square> SquareMapping = new Dictionary<string, Square>();
     private static List<Square> greenSquares;
+    private const string TOP_LEFT = "8A";
+    private const string TOP_RIGHT = "8H";
+    private const string BOTTOM_LEFT = "1A";
+    private const string BOTTOM_RIGHT = "1H";
     private void Awake()
     {
         MapSquares();

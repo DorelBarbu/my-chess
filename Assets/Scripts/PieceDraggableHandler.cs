@@ -21,6 +21,8 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
 
     public void HandleDragStart()
     {
+        UIManager.DrawTrailOfPossibleMoves(gameObject);
+
         previousSquare = null;
         parentTransform = transform.parent;
     }
@@ -60,6 +62,7 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
                 parentTransform.gameObject.GetComponent<Square>().SetOccupied(false);
                 Utils.PlaceOnObject(gameObject, previousSquare.gameObject);
                 previousSquare.SetOccupied(true);
+                EndTurnEvent.Invoke(FindObjectOfType<GameManager>().AtMove);
 
             }
             else
@@ -72,4 +75,8 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
         Board.ClearGreenSquares();
         Board.SetGreenSquares(null);
     }
+
+    public delegate void EndTurn(ColorsEnum colorAtMove);
+
+    public static event EndTurn EndTurnEvent;
 }
