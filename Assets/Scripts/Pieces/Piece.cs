@@ -9,6 +9,12 @@ public class Piece : MonoBehaviour {
     private List<List<Vector2>> allowedMovesDeltas;
     private IPiece piece;
 
+    public PieceControllerType Type
+    {
+        get { return type; }
+        set { type = value; }
+    }
+
     private void Awake()
     {
         piece = PieceFactory.createInstance(type);
@@ -52,6 +58,24 @@ public class Piece : MonoBehaviour {
     public Vector2 GetCoordinates()
     {
         return coordinates;
+    }
+
+    public void RevertToPreviousPosition(Transform parentTransform)
+    {
+        Utils.PlaceOnObject(gameObject, parentTransform.gameObject);
+    }
+    
+    public void PlaceOnSquare(Square destinationSquare, Transform parentTransform)
+    {
+        Piece overlappingPiece = destinationSquare.GetPiece();
+        if (overlappingPiece)
+        {
+            Destroy(overlappingPiece.gameObject);
+        }
+        parentTransform.gameObject.GetComponent<Square>().SetOccupied(false);
+        Utils.PlaceOnObject(gameObject, destinationSquare.gameObject);
+        destinationSquare.SetOccupied(true);
+        MatchPiecePositionToSquare();
     }
 
 

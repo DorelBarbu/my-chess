@@ -12,6 +12,9 @@ public class PieceFactory
             case PieceControllerType.QUEEN:
                 piece = new Queen();
                 break;
+            case PieceControllerType.KING:
+                piece = new King();
+                break;
             default:
                 piece = null;
                 break;

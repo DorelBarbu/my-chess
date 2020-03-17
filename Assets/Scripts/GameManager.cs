@@ -6,15 +6,16 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] ColorsEnum atMove;
+    [SerializeField] List<Piece> blackPieces;
+    [SerializeField] List<Piece> whitePieces;
     public ColorsEnum AtMove
     {
         get { return atMove; }
         set { atMove = value; }
     }
-    // Start is called before the first frame update
+
     void Start()
     {
-        Debug.Log("Game started");
         PieceDraggableHandler.EndTurnEvent += HandleEndTurnEvent;
     }
 
@@ -30,10 +31,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void HandleEndTurnEvent(ColorsEnum colorAtMove)
+    void HandleEndTurnEvent(ColorsEnum colorAtMove, bool isCheck)
     {
-        ToggleDraggableForPieces();
+        Utils.ToggleDraggableForPieces(FindObjectsOfType<Piece>());
         ToggleAtMove();
+        // HandlePossibleChess(colorAtMove);
     }
 
     void ToggleDraggableForPieces()
@@ -43,5 +45,10 @@ public class GameManager : MonoBehaviour
         {
             piece.GetComponent<Draggable>().DraggingEnabled = !piece.GetComponent<Draggable>().DraggingEnabled;
         }
+    }
+
+    public List<Piece> getPiecesOfColor(ColorsEnum color)
+    {
+        return color == ColorsEnum.BLACK ? blackPieces : whitePieces;
     }
 }

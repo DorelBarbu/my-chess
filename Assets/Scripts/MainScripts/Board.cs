@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    private static Dictionary<string, Square> SquareMapping = new Dictionary<string, Square>();
+    public static Dictionary<string, Square> SquareMapping = new Dictionary<string, Square>();
     private static List<Square> greenSquares;
     private const string TOP_LEFT = "8A";
     private const string TOP_RIGHT = "8H";
@@ -19,6 +19,14 @@ public class Board : MonoBehaviour
     public static void SetGreenSquares(List<Square> squares)
     {
         greenSquares = squares;
+        if(squares != null)
+        {
+            foreach (Square square in squares)
+            {
+                square.MarkAsAvailableForMove();
+            }
+        }
+      
     }
 
     public static void ClearGreenSquares()

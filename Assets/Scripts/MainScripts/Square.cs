@@ -100,6 +100,6 @@ public class Square : MonoBehaviour
 
     public bool IsAvailableForMove(ColorsEnum pieceColor)
     {
-        return isOccupied == false || GetPiece().GetColor() != pieceColor;
+        return GetPiece() == null || GetPiece().GetColor() != pieceColor;
     }
 }

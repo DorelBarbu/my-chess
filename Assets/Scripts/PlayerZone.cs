@@ -7,6 +7,7 @@ public class PlayerZone : MonoBehaviour
 {
     [SerializeField] TextMeshPro playerStatus;
     [SerializeField] ColorsEnum playerColor;
+    [SerializeField] GameManager gameManager;
     TextMeshPro PlayerStatus
     {
         get { return playerStatus; }
@@ -19,11 +20,19 @@ public class PlayerZone : MonoBehaviour
         DetermineIfFirstToMove();
     }
 
-    void HandleEndTurnEvent(ColorsEnum colorAtMove)
+    void HandleEndTurnEvent(ColorsEnum colorAtMove, bool isCheck)
     {
         if(colorAtMove != playerColor)
         {
-            playerStatus.text = PlayerStatusConstants.THINKING;
+            if(isCheck == true)
+            {
+                playerStatus.text = PlayerStatusConstants.IN_CHECK;
+                playerStatus.color = Color.red;
+            }
+            else
+            {
+                playerStatus.text = PlayerStatusConstants.THINKING;
+            }
         }
         else
         {

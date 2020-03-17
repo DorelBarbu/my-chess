@@ -5,9 +5,10 @@ using UnityEngine;
 public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
 {
     private Camera cam;
-    private Square previousSquare;
+    private Square destinationSquare;
     private Transform parentTransform;
     private Piece piece;
+    private GameManager gameManager;
 
     private void Awake()
     {
@@ -17,13 +18,14 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
     private void Start()
     {
         piece = gameObject.GetComponent<Piece>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     public void HandleDragStart()
     {
         UIManager.DrawTrailOfPossibleMoves(gameObject);
 
-        previousSquare = null;
+        destinationSquare = null;
         parentTransform = transform.parent;
     }
 
@@ -32,15 +34,15 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
         Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
         Square currentSquare = Utils.GetObjectBelow(newPosition.x, newPosition.y).GetComponent<Square>();
 
-        if (previousSquare)
+        if (destinationSquare)
         {
-            previousSquare.ResetSprite();
+            destinationSquare.ResetSprite();
         }
 
         if (currentSquare)
         {
             currentSquare.Highlight();
-            previousSquare = currentSquare;
+            destinationSquare = currentSquare;
         }
 
         yield return null;
@@ -48,35 +50,41 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
 
     public void HandleDragFinnish()
     {
-        if (previousSquare)
+        if (destinationSquare)
         {
-            previousSquare.ResetSprite();
-            previousSquare.GetPiece();
-            if(previousSquare.CanMoveTo == true)
+            destinationSquare.ResetSprite();
+            if(destinationSquare.CanMoveTo == true)
             {
-                Piece overlappingPiece = previousSquare.GetPiece();
-                if(overlappingPiece)
+                piece.PlaceOnSquare(destinationSquare, parentTransform);
+                //Debug.Log("Placed " + piece.name + " on " + piece.coordinates.x + " " + piece.coordinates.y);
+                if (Utils.isCheck(piece.GetColor(), gameManager) == true)
                 {
-                    Destroy(overlappingPiece.gameObject);
+                    Debug.Log("You put yourself in chess " + piece.GetColor());
+                    piece.RevertToPreviousPosition(parentTransform);
+                    piece.MatchPiecePositionToSquare();
+                    destinationSquare.SetOccupied(false);
                 }
-                parentTransform.gameObject.GetComponent<Square>().SetOccupied(false);
-                Utils.PlaceOnObject(gameObject, previousSquare.gameObject);
-                previousSquare.SetOccupied(true);
-                EndTurnEvent.Invoke(FindObjectOfType<GameManager>().AtMove);
+                else
+                {
+                    if(Utils.isCheck(Utils.NegateColor(piece.GetColor()), gameManager))
+                    {
+                        Debug.Log("You put the other player in check");
+                    }
+                    EndTurnEvent.Invoke(FindObjectOfType<GameManager>().AtMove, (Utils.isCheck(Utils.NegateColor(piece.GetColor()), gameManager)));
+                }
 
             }
             else
             {
-                Utils.PlaceOnObject(gameObject, parentTransform.gameObject);
+                piece.RevertToPreviousPosition(parentTransform);
             }
         }
 
-        piece.MatchPiecePositionToSquare();
         Board.ClearGreenSquares();
         Board.SetGreenSquares(null);
     }
 
-    public delegate void EndTurn(ColorsEnum colorAtMove);
+    public delegate void EndTurn(ColorsEnum colorAtMove, bool isCheck);
 
     public static event EndTurn EndTurnEvent;
 }
