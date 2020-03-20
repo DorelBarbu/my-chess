@@ -7,7 +7,6 @@ public class Piece : MonoBehaviour {
     [SerializeField] private PieceControllerType type;
     [SerializeField] public Vector2 coordinates;
     private List<List<Vector2>> allowedMovesDeltas;
-    private IPiece piece;
 
     public PieceControllerType Type
     {
@@ -15,10 +14,13 @@ public class Piece : MonoBehaviour {
         set { type = value; }
     }
 
+    public IPiece IPiece { get; set; }
+
     private void Awake()
     {
-        piece = PieceFactory.createInstance(type);
-        allowedMovesDeltas = piece.GetAllowedMoves();
+        IPiece = PieceFactory.createInstance(type);
+        allowedMovesDeltas = IPiece.GetAllowedMoves();
+        FindObjectOfType<GameManager>().AddPiece(this);
     }
 
     public void MatchPiecePositionToSquare()
@@ -48,6 +50,11 @@ public class Piece : MonoBehaviour {
     public ColorsEnum GetColor()
     {
         return color;
+    }
+
+    public void SetColor(ColorsEnum value)
+    {
+        color = value;
     }
 
     public List<List<Vector2>> GetAllowedMovesDeltas()

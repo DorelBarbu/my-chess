@@ -114,7 +114,7 @@ public class Utils
         Piece king = gameManager.getPiecesOfColor(playerColor).Find(piece => piece.Type == PieceControllerType.KING);
         char chessNotationX = ConvertLineToChessNotation((int)king.coordinates.x);
         char chessNotationY = ConvertColumnToChessNotation((int)king.coordinates.y);
-        char[] charKey = { chessNotationX, chessNotationY };
+        char[] charKey = { chessNotationY, chessNotationX };
         return Board.SquareMapping[new string(charKey)];
     }
 
@@ -144,5 +144,18 @@ public class Utils
         }
 
         return isCheckMate;
+    }
+
+    public static GameObject CreatePieceGameObject(string name, PieceControllerType type, ColorsEnum color)
+    {
+        GameObject newGameObject = new GameObject(name);
+
+        newGameObject.AddComponent<Piece>();
+        Piece PieceComponent = newGameObject.GetComponent<Piece>();
+        PieceComponent.IPiece = PieceFactory.createInstance(type);
+        PieceComponent.Type = type;
+        PieceComponent.SetColor(color);
+
+        return newGameObject;
     }
 }

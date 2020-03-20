@@ -43,13 +43,14 @@ public class Board : MonoBehaviour
         Square[] squares = FindObjectsOfType<Square>();
         foreach(Square square in squares)
         {
-            SquareMapping.Add(square.gameObject.name, square);
+            char[] arr = { square.Y, square.X };
+            SquareMapping.Add(new string(arr), square);
         }
     }
 
     public static Square GetSquareAtPosition(char line, char column)
     {
-        char[] arr = { line, column };
+        char[] arr = { column, line };
         return SquareMapping[new string(arr)];
     }
 }

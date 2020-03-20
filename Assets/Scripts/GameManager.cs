@@ -51,4 +51,16 @@ public class GameManager : MonoBehaviour
     {
         return color == ColorsEnum.BLACK ? blackPieces : whitePieces;
     }
+
+    public void AddPiece(Piece piece)
+    {
+        if(piece.GetColor() == ColorsEnum.BLACK)
+        {
+            blackPieces.Add(piece);
+        }
+        else
+        {
+            whitePieces.Add(piece);
+        }
+    }
 }
