@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,9 +66,15 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
                 }
                 else
                 {
-                    if(Utils.isCheck(Utils.NegateColor(piece.GetColor()), gameManager))
+                    ColorsEnum opponentColor = Utils.NegateColor(piece.GetColor());
+
+                    if(Utils.isCheck(opponentColor, gameManager))
                     {
                         Debug.Log("You put the other player in check");
+                        if(Utils.isCheckMate(opponentColor, gameManager) == true)
+                        {
+                            Debug.Log("Check mate");
+                        }
                     }
                     EndTurnEvent.Invoke(FindObjectOfType<GameManager>().AtMove, (Utils.isCheck(Utils.NegateColor(piece.GetColor()), gameManager)));
                 }

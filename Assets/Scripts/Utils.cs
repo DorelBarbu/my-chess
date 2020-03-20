@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -123,5 +123,26 @@ public class Utils
         Square kingSquare = GetKingSquareForPlayer(color, gameManager);
         List<Piece> attackingPieces = gameManager.getPiecesOfColor(Utils.NegateColor(color));
         return IsSquareUnderAttack(attackingPieces, kingSquare);
+    }
+
+    public static bool isCheckMate(ColorsEnum color, GameManager gameManager)
+    {
+        Square kingSquare = GetKingSquareForPlayer(color, gameManager);
+        Piece king = kingSquare.GetPiece();
+        List<Square> kingMoves = GetTrailOfPossibleMoves(king.gameObject);
+
+        List<Piece> attackingPieces = gameManager.getPiecesOfColor(Utils.NegateColor(color));
+       
+        bool isCheckMate = true;
+        foreach(Square square in kingMoves)
+        {
+            if(IsSquareUnderAttack(attackingPieces, square) == false)
+            {
+                isCheckMate = false;
+                break;
+            }
+        }
+
+        return isCheckMate;
     }
 }
