@@ -2296,8 +2296,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atMove: 1
-  blackPieces: []
-  whitePieces: []
+  blackPieces:
+  - {fileID: 837791143}
+  - {fileID: 718427998}
+  whitePieces:
+  - {fileID: 836304602}
+  - {fileID: 1751800378}
 --- !u!114 &358431629 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1917984696820533337, guid: 8704ff4cda1f8f941aef1d93790a1a63,

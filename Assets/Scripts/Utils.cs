@@ -147,4 +147,13 @@ public class Utils
 
         return newPiece;
     }
+
+    public static string ConverToAlgebraicNotation(int line, int col)
+    {
+        char algebraicLine = ConvertLineToChessNotation(line);
+        char algebraicColumn = ConvertColumnToChessNotation(col);
+        char[] arr = { algebraicColumn, algebraicLine };
+
+        return new string(arr);
+    }
 }

@@ -54,4 +54,19 @@ public class UtilsTest
 
         yield return null;
     }
+
+    [Test]
+    public void TestConvertToCartesian()
+    {
+        Vector2 v = Utils.ConvertToCartesian('8', 'D');
+
+        Assert.True(v.x == 0);
+        Assert.True(v.y == 3);
+    }
+
+    [Test]
+    public void TestConvertToAlgebraicNotation()
+    {
+        Assert.True(Utils.ConverToAlgebraicNotation(0, 3) == "D8");
+    }
 }
