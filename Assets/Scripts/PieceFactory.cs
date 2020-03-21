@@ -18,6 +18,9 @@ public class PieceFactory
             case PieceControllerType.ROOK:
                 piece = new Rook();
                 break;
+            case PieceControllerType.KNIGHT:
+                piece = new Knight();
+                break;
             default:
                 piece = null;
                 break;

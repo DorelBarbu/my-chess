@@ -30,6 +30,7 @@ public class MovesList
 
         AllowedMovesIndexes['K'] = GenerateAllowedIndexesForKing();
         AllowedMovesIndexes['Q'] = GenerateAllowedIndexesForQueen();
+        AllowedMovesIndexes['R'] = GenerateAllowedIndexesForRook();
       
     }
 
@@ -61,6 +62,18 @@ public class MovesList
         moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, -1, Constants.TABLE_SIZE));
         moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(0, -1, Constants.TABLE_SIZE));
         moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, -1, Constants.TABLE_SIZE));
+
+        return moves;
+    }
+
+    private List<Vector2> GenerateAllowedIndexesForRook()
+    {
+        List<Vector2> moves = new List<Vector2>();
+
+        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, 0, Constants.TABLE_SIZE));
+        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(0, 1, Constants.TABLE_SIZE));
+        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, 0, Constants.TABLE_SIZE));
+        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(0, -1, Constants.TABLE_SIZE));
 
         return moves;
     }

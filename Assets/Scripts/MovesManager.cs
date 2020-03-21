@@ -78,4 +78,48 @@ public class MovesManager
 
         return isCheck;
     }
+
+    public bool IsCheckMateForPlayer(bool playerColor)
+    {
+        string kingSquare = BoardConfiguration.Instance.GetPiecePosition('K', playerColor);
+        Dictionary<string, SquareConfiguration> boardConfiguration = BoardConfiguration.Config;
+
+        //Test if the player is in check
+
+        if (IsCheckForPlayer(playerColor) == false)
+        {
+            return false;
+        }
+
+        //Test if the king can move to an available position
+
+        List<string> availableMovesForKing = GetNextPossiblePositionsForPieceAtSquare(kingSquare);
+
+        foreach(string availableMove in availableMovesForKing)
+        {
+            if(IsSquareUnderAttackByPlayer(availableMove, !playerColor) == false)
+            {
+                return false;
+            }
+        }
+
+        //Test to see if the king is under attack by only one piece and that piece can be captured by the player at move
+        List<char> piecesAttackingKing = GetPiecesAttackingSquare(kingSquare, !playerColor);
+
+        if(piecesAttackingKing.Count == 1)
+        {
+            string attackingPieceSquare = BoardConfiguration.Instance.GetPiecePosition(piecesAttackingKing[0], !playerColor);
+            if(IsSquareUnderAttackByPlayer(attackingPieceSquare, playerColor) == true)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool IsSquareUnderAttackByPlayer(string square, bool color)
+    {
+        return GetPiecesAttackingSquare(square, color).Count > 0;
+    }
 }

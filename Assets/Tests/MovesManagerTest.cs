@@ -47,4 +47,16 @@ public class MovesManagerTest
 
         Assert.True(MovesManager.Instance.IsCheckForPlayer(false) == true);
     }
+
+    [Test]
+    public void TestIsSquareUnderAttackByPlayer()
+    {
+        BoardConfiguration.Instance.ResetBoardConfiguration();
+
+        BoardConfiguration.Instance.SetPiecePosition('K', false, "A1");
+        BoardConfiguration.Instance.SetPiecePosition('Q', true, "H8");
+
+        Assert.True(MovesManager.Instance.IsSquareUnderAttackByPlayer("B2", false));
+        Assert.True(MovesManager.Instance.IsSquareUnderAttackByPlayer("B2", true));
+    }
 }

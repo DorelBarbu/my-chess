@@ -49,7 +49,7 @@ public class BoardConfiguration
 
         foreach (string square in configKeys)
         {
-            if(Config[square].Piece == piece && Config[square].Color == color)
+            if(Config[square] != null && Config[square].Piece == piece && Config[square].Color == color)
             {
                 answer = square;
                 break;
