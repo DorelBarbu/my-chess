@@ -10,7 +10,11 @@ public class Knight : IPiece
         moves.Add(new List<Vector2>() { new Vector2(-2, 1) });
         moves.Add(new List<Vector2>() { new Vector2(-2, -1) });
         moves.Add(new List<Vector2>() { new Vector2(-1, -2) });
+        moves.Add(new List<Vector2>() { new Vector2(-1, 2) });
         moves.Add(new List<Vector2>() { new Vector2(1, -2) });
+        moves.Add(new List<Vector2>() { new Vector2(2, -1) });
+        moves.Add(new List<Vector2>() { new Vector2(2, 1) });
+        moves.Add(new List<Vector2>() { new Vector2(1, 2) });
         return moves;
     }
 }

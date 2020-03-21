@@ -21,6 +21,9 @@ public class PieceFactory
             case PieceControllerType.KNIGHT:
                 piece = new Knight();
                 break;
+            case PieceControllerType.BISHOP:
+                piece = new Bishop();
+                break;
             default:
                 piece = null;
                 break;

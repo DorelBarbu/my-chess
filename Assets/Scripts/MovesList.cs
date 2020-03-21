@@ -31,7 +31,9 @@ public class MovesList
         AllowedMovesIndexes['K'] = GenerateAllowedIndexesForKing();
         AllowedMovesIndexes['Q'] = GenerateAllowedIndexesForQueen();
         AllowedMovesIndexes['R'] = GenerateAllowedIndexesForRook();
-      
+        AllowedMovesIndexes['N'] = GenerateAllowedMovesIndexesForKnight();
+
+
     }
 
     private List<Vector2> GenerateAllowedIndexesForKing()
@@ -74,6 +76,22 @@ public class MovesList
         moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(0, 1, Constants.TABLE_SIZE));
         moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, 0, Constants.TABLE_SIZE));
         moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(0, -1, Constants.TABLE_SIZE));
+
+        return moves;
+    }
+
+    public List<Vector2> GenerateAllowedMovesIndexesForKnight()
+    {
+        List<Vector2> moves = new List<Vector2>();
+
+        moves.AddRange(new List<Vector2>() { new Vector2(-2, 1) });
+        moves.AddRange(new List<Vector2>() { new Vector2(-2, -1) });
+        moves.AddRange(new List<Vector2>() { new Vector2(-1, -2) });
+        moves.AddRange(new List<Vector2>() { new Vector2(-1, 2) });
+        moves.AddRange(new List<Vector2>() { new Vector2(1, -2) });
+        moves.AddRange(new List<Vector2>() { new Vector2(2, -1) });
+        moves.AddRange(new List<Vector2>() { new Vector2(2, 1) });
+        moves.AddRange(new List<Vector2>() { new Vector2(1, 2) });
 
         return moves;
     }
