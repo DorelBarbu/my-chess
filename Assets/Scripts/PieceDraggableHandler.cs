@@ -71,10 +71,6 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
                     if(Utils.isCheck(opponentColor, gameManager))
                     {
                         Debug.Log("You put the other player in check");
-                        if(Utils.isCheckMate(opponentColor, gameManager) == true)
-                        {
-                            Debug.Log("Check mate");
-                        }
                     }
                     EndTurnEvent.Invoke(FindObjectOfType<GameManager>().AtMove, (Utils.isCheck(Utils.NegateColor(piece.GetColor()), gameManager)));
                 }

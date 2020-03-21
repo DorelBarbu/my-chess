@@ -125,27 +125,6 @@ public class Utils
         return IsSquareUnderAttack(attackingPieces, kingSquare);
     }
 
-    public static bool isCheckMate(ColorsEnum color, GameManager gameManager)
-    {
-        Square kingSquare = GetKingSquareForPlayer(color, gameManager);
-        Piece king = kingSquare.GetPiece();
-        List<Square> kingMoves = GetTrailOfPossibleMoves(king.gameObject);
-
-        List<Piece> attackingPieces = gameManager.getPiecesOfColor(Utils.NegateColor(color));
-       
-        bool isCheckMate = true;
-        foreach(Square square in kingMoves)
-        {
-            if(IsSquareUnderAttack(attackingPieces, square) == false)
-            {
-                isCheckMate = false;
-                break;
-            }
-        }
-
-        return isCheckMate;
-    }
-
     public static GameObject CreatePieceGameObject(string name, PieceControllerType type, ColorsEnum color)
     {
         GameObject newGameObject = new GameObject(name);
