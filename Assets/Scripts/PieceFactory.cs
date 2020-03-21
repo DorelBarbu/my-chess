@@ -15,6 +15,9 @@ public class PieceFactory
             case PieceControllerType.KING:
                 piece = new King();
                 break;
+            case PieceControllerType.ROOK:
+                piece = new Rook();
+                break;
             default:
                 piece = null;
                 break;
