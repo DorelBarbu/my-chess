@@ -20,7 +20,7 @@ public class Piece : MonoBehaviour {
     {
         IPiece = PieceFactory.createInstance(type);
         allowedMovesDeltas = IPiece.GetAllowedMoves();
-        FindObjectOfType<GameManager>().AddPiece(this);
+        //FindObjectOfType<GameManager>().AddPiece(this);
     }
 
     public void MatchPiecePositionToSquare()
@@ -85,6 +85,14 @@ public class Piece : MonoBehaviour {
         MatchPiecePositionToSquare();
     }
 
+    public void RemovePieceFromGameManagerPiecesList()
+    {
+        GameManager gameManager = FindObjectOfType<GameManager>();
+        if(gameManager != null) gameManager.getPiecesOfColor(color).Remove(this);
+    }
 
-
+    private void OnDestroy()
+    {
+        RemovePieceFromGameManagerPiecesList();
+    }
 }

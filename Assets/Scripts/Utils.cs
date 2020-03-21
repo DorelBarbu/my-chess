@@ -158,4 +158,14 @@ public class Utils
 
         return newGameObject;
     }
+
+    public static GameObject InstantiatePieceAndPlaceOnSquare(string name, PieceControllerType type, ColorsEnum color, string destinationSquare)
+    {
+        GameObject newPiece = Utils.CreatePieceGameObject(name, type, color);
+        Square square = Board.SquareMapping[destinationSquare];
+
+        Utils.PlaceOnObject(newPiece, square.gameObject);
+
+        return newPiece;
+    }
 }

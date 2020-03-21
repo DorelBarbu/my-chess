@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
 
-public class MovementSystem
+public class UtilsTest
 {
     private static string SCENE_NAME = "EmptyBoard";
     private static bool isSceneLoaded = false;
@@ -31,10 +31,9 @@ public class MovementSystem
     [UnityTest]
     public IEnumerator TestInstantiatingPieceAndPlaceOnSquare()
     {
-        GameObject queen = Utils.CreatePieceGameObject("BQ", PieceControllerType.QUEEN, ColorsEnum.BLACK);
+        Utils.InstantiatePieceAndPlaceOnSquare("BQ", PieceControllerType.QUEEN, ColorsEnum.BLACK, "C8");
 
         Square square = Board.SquareMapping["C8"];
-        Utils.PlaceOnObject(queen, square.gameObject);
 
         Assert.NotNull(square);
         Assert.NotNull(square.GetPiece());
@@ -47,14 +46,12 @@ public class MovementSystem
     [UnityTest]
     public IEnumerator TestGetKingSquareForPlayer()
     {
-        GameObject king = Utils.CreatePieceGameObject("BK", PieceControllerType.KING, ColorsEnum.BLACK);
-        Square square = Board.SquareMapping["C3"];
-        Utils.PlaceOnObject(king, square.gameObject);
+        GameObject king = Utils.InstantiatePieceAndPlaceOnSquare("BK", PieceControllerType.KING, ColorsEnum.BLACK, "C3");
+        MonoBehaviour.FindObjectOfType<GameManager>().AddPiece(king.GetComponent<Piece>());
 
         Assert.True(MonoBehaviour.FindObjectOfType<GameManager>().getPiecesOfColor(ColorsEnum.BLACK).Count == 1);
         Assert.NotNull(Utils.GetKingSquareForPlayer(ColorsEnum.BLACK, MonoBehaviour.FindObjectOfType<GameManager>()));
 
         yield return null;
-
     }
 }
