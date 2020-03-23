@@ -32,6 +32,7 @@ public class MovesList
         AllowedMovesIndexes['Q'] = GenerateAllowedIndexesForQueen();
         AllowedMovesIndexes['R'] = GenerateAllowedIndexesForRook();
         AllowedMovesIndexes['N'] = GenerateAllowedMovesIndexesForKnight();
+        AllowedMovesIndexes['B'] = GenerateAllowedIndexesForBishop();
 
 
     }
@@ -92,6 +93,18 @@ public class MovesList
         moves.AddRange(new List<Vector2>() { new Vector2(2, -1) });
         moves.AddRange(new List<Vector2>() { new Vector2(2, 1) });
         moves.AddRange(new List<Vector2>() { new Vector2(1, 2) });
+
+        return moves;
+    }
+
+    private List<Vector2> GenerateAllowedIndexesForBishop()
+    {
+        List<Vector2> moves = new List<Vector2>();
+
+        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, 1, Constants.TABLE_SIZE));
+        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, -1, Constants.TABLE_SIZE));
+        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, 1, Constants.TABLE_SIZE));
+        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, -1, Constants.TABLE_SIZE));
 
         return moves;
     }

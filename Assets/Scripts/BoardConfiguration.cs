@@ -5,6 +5,7 @@ using UnityEngine;
 public class BoardConfiguration
 {
     public static Dictionary<string, SquareConfiguration> Config { get; set; }
+    public static List<string> SquareAlgebraicNotations { get; set; }
     private static BoardConfiguration boardConfigurationInstance;
 
     public static BoardConfiguration Instance
@@ -22,6 +23,20 @@ public class BoardConfiguration
     private BoardConfiguration()
     {
         InitBoardConfigurationWithNull();
+        InitSquareAlgebraicNotation();
+    }
+
+    private void InitSquareAlgebraicNotation()
+    {
+        SquareAlgebraicNotations = new List<string>();
+        for (char i = 'A'; i <= 'H'; i++)
+        {
+            for (int j = 1; j <= 8; j++)
+            {
+                char[] arr = { i, (char)('0' + j) };
+                SquareAlgebraicNotations.Add(new string(arr));
+            }
+        }
     }
 
     public void SetPiecePosition(char piece, bool color, string square)

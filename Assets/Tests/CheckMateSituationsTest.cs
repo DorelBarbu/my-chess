@@ -18,4 +18,18 @@ public class CheckMateSituationTest
 
         Assert.True(MovesManager.Instance.IsCheckMateForPlayer(true) == true);
     }
+
+    [Test]
+    public void Test2()
+    {
+        BoardConfiguration.Instance.ResetBoardConfiguration();
+
+        BoardConfiguration.Instance.SetPiecePosition('K', false, "C1");
+        BoardConfiguration.Instance.SetPiecePosition('R', true, "C2");
+        BoardConfiguration.Instance.SetPiecePosition('N', true, "C3");
+        BoardConfiguration.Instance.SetPiecePosition('B', true, "B3");
+        BoardConfiguration.Instance.SetPiecePosition('B', true, "B4");
+
+        Assert.True(MovesManager.Instance.IsCheckMateForPlayer(true) == true);
+    }
 }

@@ -31,4 +31,17 @@ public class BoardConfigurationTest
 
         Assert.True(BoardConfiguration.Instance.GetPiecePosition('Q', false) == "A2");
     }
+
+    [Test]
+    public void TestMovePiece()
+    {
+        BoardConfiguration.Instance.ResetBoardConfiguration();
+
+        BoardConfiguration.Instance.SetPiecePosition('K', true, "A1");
+        BoardConfiguration.Instance.MovePiece("A1", "A2");
+
+        Assert.True(BoardConfiguration.Instance.GetPieceAtSquare("A1") == null);
+        Assert.True(BoardConfiguration.Instance.GetPieceAtSquare("A2").Color == true);
+        Assert.True(BoardConfiguration.Instance.GetPieceAtSquare("A2").Piece == 'K');
+    }
 }

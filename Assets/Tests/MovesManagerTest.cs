@@ -38,12 +38,45 @@ public class MovesManagerTest
 
     [Test]
 
-    public void TestIsCheckForPlayer()
+    public void TestIsCheckFromQueen()
     {
         BoardConfiguration.Instance.ResetBoardConfiguration();
 
         BoardConfiguration.Instance.SetPiecePosition('K', false, "A1");
         BoardConfiguration.Instance.SetPiecePosition('Q', true, "H8");
+
+        Assert.True(MovesManager.Instance.IsCheckForPlayer(false) == true);
+    }
+
+    [Test]
+    public void TestIsCheckFromBishop()
+    {
+        BoardConfiguration.Instance.ResetBoardConfiguration();
+
+        BoardConfiguration.Instance.SetPiecePosition('K', false, "A1");
+        BoardConfiguration.Instance.SetPiecePosition('B', true, "H8");
+
+        Assert.True(MovesManager.Instance.IsCheckForPlayer(false) == true);
+    }
+
+    [Test]
+    public void TestIsCheckFromRook()
+    {
+        BoardConfiguration.Instance.ResetBoardConfiguration();
+
+        BoardConfiguration.Instance.SetPiecePosition('K', false, "C1");
+        BoardConfiguration.Instance.SetPiecePosition('R', true, "C2");
+
+        Assert.True(MovesManager.Instance.IsCheckForPlayer(false) == true);
+    }
+
+    [Test]
+    public void TestIsCheckFromKnight()
+    {
+        BoardConfiguration.Instance.ResetBoardConfiguration();
+
+        BoardConfiguration.Instance.SetPiecePosition('K', false, "A1");
+        BoardConfiguration.Instance.SetPiecePosition('N', true, "B3");
 
         Assert.True(MovesManager.Instance.IsCheckForPlayer(false) == true);
     }

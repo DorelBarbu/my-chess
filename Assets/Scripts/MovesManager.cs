@@ -81,40 +81,36 @@ public class MovesManager
 
     public bool IsCheckMateForPlayer(bool playerColor)
     {
-        string kingSquare = BoardConfiguration.Instance.GetPiecePosition('K', playerColor);
-        Dictionary<string, SquareConfiguration> boardConfiguration = BoardConfiguration.Config;
-
         //Test if the player is in check
-
         if (IsCheckForPlayer(playerColor) == false)
         {
+            Debug.Log("The king is not in check");
             return false;
         }
 
-        //Test if the king can move to an available position
-
-        List<string> availableMovesForKing = GetNextPossiblePositionsForPieceAtSquare(kingSquare);
-
-        foreach(string availableMove in availableMovesForKing)
+        //Test if there is one move that could prevent the checkmate
+        foreach (string squarePosition in BoardConfiguration.SquareAlgebraicNotations)
         {
-            if(IsSquareUnderAttackByPlayer(availableMove, !playerColor) == false)
+            SquareConfiguration value = BoardConfiguration.Instance.GetPieceAtSquare(squarePosition);
+
+            if (value != null && value.Color == playerColor)
             {
-                return false;
+                List<string> possibleMovesForCurrentPiece = GetNextPossiblePositionsForPieceAtSquare(squarePosition);
+
+                foreach(string possibleMove in possibleMovesForCurrentPiece)
+                {
+                    BoardConfiguration.Instance.MovePiece(squarePosition, possibleMove);
+                    if(IsCheckForPlayer(playerColor) == false)
+                    {
+                        Debug.Log("King can escape by moving to: " + possibleMove);
+                        BoardConfiguration.Instance.MovePiece(possibleMove, squarePosition);
+                        return false;
+                    }
+                    BoardConfiguration.Instance.MovePiece(possibleMove, squarePosition);
+                }
             }
         }
-
-        //Test to see if the king is under attack by only one piece and that piece can be captured by the player at move
-        List<char> piecesAttackingKing = GetPiecesAttackingSquare(kingSquare, !playerColor);
-
-        if(piecesAttackingKing.Count == 1)
-        {
-            string attackingPieceSquare = BoardConfiguration.Instance.GetPiecePosition(piecesAttackingKing[0], !playerColor);
-            if(IsSquareUnderAttackByPlayer(attackingPieceSquare, playerColor) == true)
-            {
-                return false;
-            }
-        }
-
+        
         return true;
     }
 
