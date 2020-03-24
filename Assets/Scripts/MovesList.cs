@@ -18,7 +18,7 @@ public class MovesList
         }
     }
 
-    public Dictionary<char, List<Vector2>> AllowedMovesIndexes
+    public Dictionary<char, List<List<Vector2>>> AllowedMovesIndexes
     {
         get;
         set;
@@ -26,7 +26,7 @@ public class MovesList
 
     private MovesList()
     {
-        AllowedMovesIndexes = new Dictionary<char, List<Vector2>>();
+        AllowedMovesIndexes = new Dictionary<char, List<List<Vector2>>>();
 
         AllowedMovesIndexes['K'] = GenerateAllowedIndexesForKing();
         AllowedMovesIndexes['Q'] = GenerateAllowedIndexesForQueen();
@@ -38,83 +38,83 @@ public class MovesList
 
     }
 
-    private List<Vector2> GenerateAllowedIndexesForKing()
+    private List<List<Vector2>> GenerateAllowedIndexesForKing()
     {
-        List<Vector2> moves = new List<Vector2>();
+        List<List<Vector2>> moves = new List<List<Vector2>>();
 
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, 0, 2));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, 1, 2));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(0, 1, 2));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, 1, 2));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, 0, 2));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, -1, 2));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(0, -1, 2));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, -1, 2));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(-1, 0, 2));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(-1, 1, 2));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(0, 1, 2));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(1, 1, 2));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(1, 0, 2));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(1, -1, 2));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(0, -1, 2));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(-1, -1, 2));
 
         return moves;
     }
 
-    private List<Vector2> GenerateAllowedIndexesForQueen()
+    private List<List<Vector2>> GenerateAllowedIndexesForQueen()
     {
-        List<Vector2> moves = new List<Vector2>();
+        List<List<Vector2>> moves = new List<List<Vector2>>();
 
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, 0, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, 1, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(0, 1, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, 1, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, 0, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, -1, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(0, -1, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, -1, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(-1, 0, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(-1, 1, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(0, 1, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(1, 1, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(1, 0, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(1, -1, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(0, -1, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(-1, -1, Constants.TABLE_SIZE));
 
         return moves;
     }
 
-    private List<Vector2> GenerateAllowedIndexesForRook()
+    private List<List<Vector2>> GenerateAllowedIndexesForRook()
     {
-        List<Vector2> moves = new List<Vector2>();
+        List<List<Vector2>> moves = new List<List<Vector2>>();
 
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, 0, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(0, 1, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, 0, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(0, -1, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(-1, 0, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(0, 1, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(1, 0, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(0, -1, Constants.TABLE_SIZE));
 
         return moves;
     }
 
-    public List<Vector2> GenerateAllowedMovesIndexesForKnight()
+    public List<List<Vector2>> GenerateAllowedMovesIndexesForKnight()
     {
-        List<Vector2> moves = new List<Vector2>();
+        List<List<Vector2>> moves = new List<List<Vector2>>();
 
-        moves.AddRange(new List<Vector2>() { new Vector2(-2, 1) });
-        moves.AddRange(new List<Vector2>() { new Vector2(-2, -1) });
-        moves.AddRange(new List<Vector2>() { new Vector2(-1, -2) });
-        moves.AddRange(new List<Vector2>() { new Vector2(-1, 2) });
-        moves.AddRange(new List<Vector2>() { new Vector2(1, -2) });
-        moves.AddRange(new List<Vector2>() { new Vector2(2, -1) });
-        moves.AddRange(new List<Vector2>() { new Vector2(2, 1) });
-        moves.AddRange(new List<Vector2>() { new Vector2(1, 2) });
+        moves.Add(new List<Vector2>() { new Vector2(-2, 1) });
+        moves.Add(new List<Vector2>() { new Vector2(-2, -1) });
+        moves.Add(new List<Vector2>() { new Vector2(-1, -2) });
+        moves.Add(new List<Vector2>() { new Vector2(-1, 2) });
+        moves.Add(new List<Vector2>() { new Vector2(1, -2) });
+        moves.Add(new List<Vector2>() { new Vector2(2, -1) });
+        moves.Add(new List<Vector2>() { new Vector2(2, 1) });
+        moves.Add(new List<Vector2>() { new Vector2(1, 2) });
 
         return moves;
     }
 
-    private List<Vector2> GenerateAllowedIndexesForBishop()
+    private List<List<Vector2>> GenerateAllowedIndexesForBishop()
     {
-        List<Vector2> moves = new List<Vector2>();
+        List<List<Vector2>> moves = new List<List<Vector2>>();
 
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, 1, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, -1, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, 1, Constants.TABLE_SIZE));
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(-1, -1, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(-1, 1, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(1, -1, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(1, 1, Constants.TABLE_SIZE));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(-1, -1, Constants.TABLE_SIZE));
 
         return moves;
     }
 
-     private List<Vector2> GenerateAllowedIndexesForPawn()
+     private List<List<Vector2>> GenerateAllowedIndexesForPawn()
     {
-        List<Vector2> moves = new List<Vector2>();
+        List<List<Vector2>> moves = new List<List<Vector2>>();
 
-        moves.AddRange(AllowedMovesGenerator.GetMovesForDirection(1, 0, 3));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(1, 0, 3));
 
         return moves;
     }

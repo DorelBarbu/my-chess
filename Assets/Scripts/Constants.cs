@@ -14,14 +14,14 @@ public static class Constants
     public static Dictionary<PieceControllerType, char> PIECE_MAPPING = new Dictionary<PieceControllerType, char>()
     {
         { PieceControllerType.PAWN, 'P' },
-        { PieceControllerType.PAWN, 'K' },
-        { PieceControllerType.PAWN, 'Q' },
-        { PieceControllerType.PAWN, 'N' },
-        { PieceControllerType.PAWN, 'R' },
-        { PieceControllerType.PAWN, 'B' }
+        { PieceControllerType.KING, 'K' },
+        { PieceControllerType.QUEEN, 'Q' },
+        { PieceControllerType.KNIGHT, 'N' },
+        { PieceControllerType.ROOK, 'R' },
+        { PieceControllerType.BISHOP, 'B' }
     };
 
-    public static Dictionary<PieceControllerType, char> COLOR_MAPPING = new Dictionary<ColorsEnum, char>()
+    public static Dictionary<ColorsEnum, bool> COLOR_MAPPING = new Dictionary<ColorsEnum, bool>()
     {
         { ColorsEnum.WHITE, false },
         { ColorsEnum.BLACK, true }

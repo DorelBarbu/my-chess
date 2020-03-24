@@ -27,7 +27,8 @@ public class Piece : MonoBehaviour {
 
     private void AddPieceToBoardConfiguration()
     {
-        BoardConfiguration.Instance.SetPiecePosition(Constants.PIECE_MAPPING[type], Constants.COLOR_MAPPING[color], "A1");
+        //Debug.Log("Algebraic notation of " + name + " : " + GetSquare().GetAlgebraicCoordinates());
+        BoardConfiguration.Instance.SetPiecePosition(Constants.PIECE_MAPPING[type], Constants.COLOR_MAPPING[color], GetSquare().GetAlgebraicCoordinates());
     }
 
     public void MatchPiecePositionToSquare()
@@ -44,6 +45,7 @@ public class Piece : MonoBehaviour {
     private void Start()
     {
         MatchPiecePositionToSquare();
+        AddPieceToBoardConfiguration();
     }
 
     private void OnMouseDown()
@@ -101,5 +103,10 @@ public class Piece : MonoBehaviour {
     private void OnDestroy()
     {
         RemovePieceFromGameManagerPiecesList();
+    }
+
+    public Square GetSquare()
+    {
+        return transform.parent.GetComponent<Square>();
     }
 }

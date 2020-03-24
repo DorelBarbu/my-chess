@@ -9,6 +9,7 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
     private Transform parentTransform;
     private Piece piece;
     private GameManager gameManager;
+    private Square currentSquare;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
     {
         piece = gameObject.GetComponent<Piece>();
         gameManager = FindObjectOfType<GameManager>();
+        currentSquare = piece.GetSquare();
     }
 
     public void HandleDragStart()
@@ -73,6 +75,8 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
                         Debug.Log("You put the other player in check");
                     }
                     EndTurnEvent.Invoke(FindObjectOfType<GameManager>().AtMove, (Utils.isCheck(Utils.NegateColor(piece.GetColor()), gameManager)));
+                    BoardConfiguration.Instance.MovePiece(currentSquare.GetAlgebraicCoordinates(), destinationSquare.GetAlgebraicCoordinates());
+                    currentSquare = piece.GetSquare();
                 }
 
             }

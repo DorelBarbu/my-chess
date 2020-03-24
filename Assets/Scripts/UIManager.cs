@@ -12,6 +12,6 @@ public class UIManager : MonoBehaviour
 
     public static void DrawTrailOfPossibleMoves(GameObject pieceObj)
     {
-        Board.SetGreenSquares(Utils.GetTrailOfPossibleMoves(pieceObj));
+        Board.SetGreenSquares(Utils.GetTrailOfPossibleMovesEnhanced(pieceObj));
     }
 }

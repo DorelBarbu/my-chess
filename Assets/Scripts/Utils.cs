@@ -110,6 +110,18 @@ public class Utils
         return greenSquares;
     }
 
+    public static List<Square> GetTrailOfPossibleMovesEnhanced(GameObject pieceObj)
+    {
+        string piecePosition = pieceObj.GetComponent<Piece>().GetSquare().GetAlgebraicCoordinates();
+        Debug.Log("Getting moves for piece at position: " + piecePosition);
+        List<string> nextPossiblePositions = MovesManager.Instance.GetNextPossiblePositionsForPieceAtSquare(piecePosition);
+
+        List<Square> greenSquares = new List<Square>();
+        nextPossiblePositions.ForEach(position => greenSquares.Add(Board.SquareMapping[position]));
+
+        return greenSquares;
+    }
+
     public static ColorsEnum NegateColor(ColorsEnum color)
     {
         return color == ColorsEnum.BLACK ? ColorsEnum.WHITE : ColorsEnum.BLACK;

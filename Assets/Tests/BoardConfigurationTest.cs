@@ -47,6 +47,19 @@ public class BoardConfigurationTest
     }
 
     [Test]
+    public void TestMovePiece2()
+    {
+        BoardConfiguration.Instance.ResetBoardConfiguration();
+
+        BoardConfiguration.Instance.SetPiecePosition('Q', true, "A1");
+        BoardConfiguration.Instance.MovePiece("A1", "A2");
+
+        Assert.True(BoardConfiguration.Instance.GetPieceAtSquare("A1") == null);
+        Assert.True(BoardConfiguration.Instance.GetPieceAtSquare("A2").Color == true);
+        Assert.True(BoardConfiguration.Instance.GetPieceAtSquare("A2").Piece == 'Q');
+    }
+
+    [Test]
     public void TesteMovePawn()
     {
         BoardConfiguration.Instance.ResetBoardConfiguration();

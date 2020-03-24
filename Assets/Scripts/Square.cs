@@ -13,6 +13,12 @@ public class Square : MonoBehaviour
     private GameObject highlightSquare;
     private UIManager uiManager;
 
+    public string GetAlgebraicCoordinates()
+    {
+        char[] arr = { y, x };
+        return new string(arr);
+    }
+
     public bool CanMoveTo
     {
         set { canMoveTo = value; }

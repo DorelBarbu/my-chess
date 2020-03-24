@@ -66,26 +66,40 @@ public class MovesManager
     public List<string> GetNextPossiblePositionsForPieceAtSquare(string piecePosition)
     {
         SquareConfiguration squareConfiguration = BoardConfiguration.Instance.GetPieceAtSquare(piecePosition);
-        List<Vector2> allowedMovesDeltas = MovesList.Instance.AllowedMovesIndexes[squareConfiguration.Piece];
+        Debug.Log(piecePosition);
+        if(squareConfiguration == null)
+        {
+            Debug.Log("NULLLL");
+        }
+        List<List<Vector2>> allowedMovesDeltas = MovesList.Instance.AllowedMovesIndexes[squareConfiguration.Piece];
         Vector2 origin = Utils.ConvertToCartesian(piecePosition[1], piecePosition[0]);
         List<string> nextPossiblePositions = new List<string>();
 
-        foreach(Vector2 delta in allowedMovesDeltas)
+        foreach(List<Vector2> deltasForDirection in allowedMovesDeltas)
         {
-            Vector2 nextPosition;
-            nextPosition.x = origin.x + squareConfiguration.MovingDirection * delta.x;
-            nextPosition.y = origin.y + delta.y;
-
-            if(Utils.IsInsideBoard((int)nextPosition.x, (int)nextPosition.y))
+            foreach(Vector2 delta in deltasForDirection)
             {
-                string nextSquare = Utils.ConverToAlgebraicNotation((int)nextPosition.x, (int)nextPosition.y);
-                SquareConfiguration nextSquareConfiguration = BoardConfiguration.Instance.GetPieceAtSquare(nextSquare);
+                Vector2 nextPosition;
+                nextPosition.x = origin.x + squareConfiguration.MovingDirection * delta.x;
+                nextPosition.y = origin.y + delta.y;
 
-                if (nextSquareConfiguration == null || nextSquareConfiguration.Color != squareConfiguration.Color)
+                if (Utils.IsInsideBoard((int)nextPosition.x, (int)nextPosition.y))
                 {
-                    nextPossiblePositions.Add(nextSquare);
+                    string nextSquare = Utils.ConverToAlgebraicNotation((int)nextPosition.x, (int)nextPosition.y);
+                    SquareConfiguration nextSquareConfiguration = BoardConfiguration.Instance.GetPieceAtSquare(nextSquare);
+
+                    if (nextSquareConfiguration == null || nextSquareConfiguration.Color != squareConfiguration.Color)
+                    {
+                        nextPossiblePositions.Add(nextSquare);
+                    }
+
+                    if(nextSquareConfiguration != null)
+                    {
+                        break;
+                    }
                 }
             }
+          
         }
 
         if(squareConfiguration.Piece == 'P')
