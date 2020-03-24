@@ -11,4 +11,19 @@ public static class Constants
     public static string SQUARE = "Square";
     public static string UIMANAGER = "UiManager";
     public static int TABLE_SIZE = 8;
+    public static Dictionary<PieceControllerType, char> PIECE_MAPPING = new Dictionary<PieceControllerType, char>()
+    {
+        { PieceControllerType.PAWN, 'P' },
+        { PieceControllerType.PAWN, 'K' },
+        { PieceControllerType.PAWN, 'Q' },
+        { PieceControllerType.PAWN, 'N' },
+        { PieceControllerType.PAWN, 'R' },
+        { PieceControllerType.PAWN, 'B' }
+    };
+
+    public static Dictionary<PieceControllerType, char> COLOR_MAPPING = new Dictionary<ColorsEnum, char>()
+    {
+        { ColorsEnum.WHITE, false },
+        { ColorsEnum.BLACK, true }
+    };
 }

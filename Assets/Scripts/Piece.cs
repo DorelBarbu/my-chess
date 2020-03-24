@@ -6,6 +6,8 @@ public class Piece : MonoBehaviour {
     [SerializeField] private ColorsEnum color;
     [SerializeField] private PieceControllerType type;
     [SerializeField] public Vector2 coordinates;
+    [SerializeField] private int movingDirection;
+
     private List<List<Vector2>> allowedMovesDeltas;
 
     public PieceControllerType Type
@@ -21,6 +23,11 @@ public class Piece : MonoBehaviour {
         IPiece = PieceFactory.createInstance(type);
         allowedMovesDeltas = IPiece.GetAllowedMoves();
         //FindObjectOfType<GameManager>().AddPiece(this);
+    }
+
+    private void AddPieceToBoardConfiguration()
+    {
+        BoardConfiguration.Instance.SetPiecePosition(Constants.PIECE_MAPPING[type], Constants.COLOR_MAPPING[color], "A1");
     }
 
     public void MatchPiecePositionToSquare()
