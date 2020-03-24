@@ -18,6 +18,51 @@ public class MovesManager
         }
     }
 
+    private bool CanPawnCapturePiece(string pieceLocation, bool pawnColor)
+    {
+        SquareConfiguration pieceSquareConfiguration = BoardConfiguration.Instance.GetPieceAtSquare(pieceLocation);
+        return pieceSquareConfiguration != null && pieceSquareConfiguration.Color != pawnColor;
+    }
+
+    
+    public List<string> GetDiagonalMovesForPawn(string piecePosition)
+    {
+        SquareConfiguration squareConfiguration = BoardConfiguration.Instance.GetPieceAtSquare(piecePosition);
+
+        if(squareConfiguration.Piece != 'P')
+        {
+            return null;
+        }
+        
+        List<string> allowedMovesForPawn = new List<string>();
+
+        Vector2 pawnCartesianCoordinates = Utils.ConvertToCartesian(piecePosition[1], piecePosition[0]);
+        bool pawnColor = BoardConfiguration.Instance.GetPieceAtSquare(piecePosition).Color;
+
+        Vector2 upLeftMove = pawnCartesianCoordinates + new Vector2(squareConfiguration.MovingDirection, -1);
+        Vector2 upRightMove = pawnCartesianCoordinates + new Vector2(squareConfiguration.MovingDirection, 1);
+
+        if(Utils.IsInsideBoard((int)upLeftMove.x, (int)upLeftMove.y) == true)
+        {
+            string upLeftMoveAlgebraicCoordinates = Utils.ConvertCartesianToAlgebraic(upLeftMove);
+            if(CanPawnCapturePiece(upLeftMoveAlgebraicCoordinates, pawnColor))
+            {
+                allowedMovesForPawn.Add(upLeftMoveAlgebraicCoordinates);
+            }
+        }
+
+         if(Utils.IsInsideBoard((int)upRightMove.x, (int)upRightMove.y) == true)
+        {
+            string upRightMoveAlgebraicCoordinates = Utils.ConvertCartesianToAlgebraic(upRightMove);
+            if(CanPawnCapturePiece(upRightMoveAlgebraicCoordinates, pawnColor))
+            {
+                allowedMovesForPawn.Add(upRightMoveAlgebraicCoordinates);
+            }
+        }
+
+        return allowedMovesForPawn;
+    }
+
     public List<string> GetNextPossiblePositionsForPieceAtSquare(string piecePosition)
     {
         SquareConfiguration squareConfiguration = BoardConfiguration.Instance.GetPieceAtSquare(piecePosition);
@@ -27,7 +72,10 @@ public class MovesManager
 
         foreach(Vector2 delta in allowedMovesDeltas)
         {
-            Vector2 nextPosition = origin + delta;
+            Vector2 nextPosition;
+            nextPosition.x = origin.x + squareConfiguration.MovingDirection * delta.x;
+            nextPosition.y = origin.y + delta.y;
+
             if(Utils.IsInsideBoard((int)nextPosition.x, (int)nextPosition.y))
             {
                 string nextSquare = Utils.ConverToAlgebraicNotation((int)nextPosition.x, (int)nextPosition.y);
@@ -38,6 +86,11 @@ public class MovesManager
                     nextPossiblePositions.Add(nextSquare);
                 }
             }
+        }
+
+        if(squareConfiguration.Piece == 'P')
+        {
+            nextPossiblePositions.AddRange(GetDiagonalMovesForPawn(piecePosition));
         }
 
         return nextPossiblePositions;
@@ -64,17 +117,26 @@ public class MovesManager
     {
         string kingSquare = BoardConfiguration.Instance.GetPiecePosition('K', playerColor);
         Dictionary<string, SquareConfiguration> boardConfiguration = BoardConfiguration.Config;
+        Debug.Log("Check if the King is in chess at position " + kingSquare);
 
         bool isCheck = false;
 
         foreach (KeyValuePair<string, SquareConfiguration> entry in boardConfiguration)
         {
-            if (entry.Value != null && entry.Value.Color == !playerColor && GetNextPossiblePositionsForPieceAtSquare(entry.Key).Contains(kingSquare))
+            if (entry.Value != null && entry.Value.Color == !playerColor)
             {
-                isCheck = true;
-                break;
+                Debug.Log("Attack from: " + entry.Value.Piece + " at " + entry.Key + " ?");
+                List<string> possibleMovesForCurrentPiece = GetNextPossiblePositionsForPieceAtSquare(entry.Key);
+                if(possibleMovesForCurrentPiece.Contains(kingSquare) == true)
+                {
+                    Debug.Log("Check detected");
+                    isCheck = true;
+                    break;
+                }
             }
         }
+
+        if(isCheck == false) Debug.Log("Check not detected");
 
         return isCheck;
     }
@@ -99,6 +161,8 @@ public class MovesManager
 
                 foreach(string possibleMove in possibleMovesForCurrentPiece)
                 {
+                    Debug.Log("Trying to move " + value.Piece + " from " + squarePosition + "to " + possibleMove);
+                    SquareConfiguration pieceAtPossibleMove = BoardConfiguration.Instance.GetPieceAtSquare(possibleMove);
                     BoardConfiguration.Instance.MovePiece(squarePosition, possibleMove);
                     if(IsCheckForPlayer(playerColor) == false)
                     {
@@ -107,6 +171,7 @@ public class MovesManager
                         return false;
                     }
                     BoardConfiguration.Instance.MovePiece(possibleMove, squarePosition);
+                    BoardConfiguration.Config[possibleMove] = pieceAtPossibleMove;
                 }
             }
         }

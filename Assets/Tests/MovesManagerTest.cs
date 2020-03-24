@@ -92,4 +92,60 @@ public class MovesManagerTest
         Assert.True(MovesManager.Instance.IsSquareUnderAttackByPlayer("B2", false));
         Assert.True(MovesManager.Instance.IsSquareUnderAttackByPlayer("B2", true));
     }
+
+    [Test]
+    public void TestGetDiagonalMovesForPawn()
+    {
+        BoardConfiguration.Instance.ResetBoardConfiguration();
+
+        BoardConfiguration.Instance.SetPiecePosition('P', true, "B2", -1);
+
+        List<string> diagonalMovesForPawn = MovesManager.Instance.GetDiagonalMovesForPawn("B2");
+
+        Assert.True(diagonalMovesForPawn.Count == 0);
+
+        BoardConfiguration.Instance.SetPiecePosition('N', false, "A3");
+
+        diagonalMovesForPawn = MovesManager.Instance.GetDiagonalMovesForPawn("B2");
+
+        Assert.True(diagonalMovesForPawn.Count == 1);
+        Assert.True(diagonalMovesForPawn.Contains("A3") == true);
+
+
+        BoardConfiguration.Instance.SetPiecePosition('N', false, "C3");
+
+        diagonalMovesForPawn = MovesManager.Instance.GetDiagonalMovesForPawn("B2");
+
+        Assert.True(diagonalMovesForPawn.Count == 2);
+        Assert.True(diagonalMovesForPawn.Contains("A3") == true);
+        Assert.True(diagonalMovesForPawn.Contains("C3") == true);
+    }
+
+    [Test]
+    public void TestGetDiagonalMovesForPawn2()
+    {
+        BoardConfiguration.Instance.ResetBoardConfiguration();
+
+        BoardConfiguration.Instance.SetPiecePosition('P', true, "B7", 1);
+
+        List<string> diagonalMovesForPawn = MovesManager.Instance.GetDiagonalMovesForPawn("B7");
+
+        Assert.True(diagonalMovesForPawn.Count == 0);
+
+        BoardConfiguration.Instance.SetPiecePosition('N', false, "A6");
+
+        diagonalMovesForPawn = MovesManager.Instance.GetDiagonalMovesForPawn("B7");
+
+        Assert.True(diagonalMovesForPawn.Count == 1);
+        Assert.True(diagonalMovesForPawn.Contains("A6") == true);
+
+
+        BoardConfiguration.Instance.SetPiecePosition('N', false, "C6");
+
+        diagonalMovesForPawn = MovesManager.Instance.GetDiagonalMovesForPawn("B7");
+
+        Assert.True(diagonalMovesForPawn.Count == 2);
+        Assert.True(diagonalMovesForPawn.Contains("A6") == true);
+        Assert.True(diagonalMovesForPawn.Contains("C6") == true);
+    }
 }

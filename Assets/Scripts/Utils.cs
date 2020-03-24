@@ -31,6 +31,12 @@ public class Utils
         return convertedCoordinates;
     }
 
+    public static string ConvertCartesianToAlgebraic(Vector2 cartesianCoordinates)
+    {
+        char[] arr = {ConvertColumnToChessNotation((int)cartesianCoordinates.y), ConvertLineToChessNotation((int)cartesianCoordinates.x)};
+        return new string(arr);
+    }
+
     public static char ConvertLineToChessNotation(int line)
     {
         return (char)('0' + Constants.TABLE_SIZE - line);
@@ -155,5 +161,12 @@ public class Utils
         char[] arr = { algebraicColumn, algebraicLine };
 
         return new string(arr);
+    }
+
+    public static bool IsPawnInitialPosition(string square)
+    {
+        SquareConfiguration pawnPiece = BoardConfiguration.Instance.GetPieceAtSquare(square);
+
+        return pawnPiece.MovingDirection == 1 && square[1] != '7' || pawnPiece.MovingDirection == -1 && square[1] != '2';
     }
 }

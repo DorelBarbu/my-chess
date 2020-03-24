@@ -22,6 +22,7 @@ public class CheckMateSituationTest
     [Test]
     public void Test2()
     {
+        Debug.Log("<----- Test " + "2" + " ----->");
         BoardConfiguration.Instance.ResetBoardConfiguration();
 
         BoardConfiguration.Instance.SetPiecePosition('K', false, "C1");
@@ -30,6 +31,6 @@ public class CheckMateSituationTest
         BoardConfiguration.Instance.SetPiecePosition('B', true, "B3");
         BoardConfiguration.Instance.SetPiecePosition('B', true, "B4");
 
-        Assert.True(MovesManager.Instance.IsCheckMateForPlayer(true) == true);
+        Assert.True(MovesManager.Instance.IsCheckMateForPlayer(false) == true);
     }
 }

@@ -42,12 +42,19 @@ public class BoardConfiguration
     public void SetPiecePosition(char piece, bool color, string square)
     {
         SquareConfiguration newSquareConfiguration = new SquareConfiguration(piece, color);
+        newSquareConfiguration.MovingDirection = 1;
+        Config[square] = newSquareConfiguration;
+    }
+
+      public void SetPiecePosition(char piece, bool color, string square, int movingDirection)
+    {
+        SquareConfiguration newSquareConfiguration = new SquareConfiguration(piece, color);
+        newSquareConfiguration.MovingDirection = movingDirection;
         Config[square] = newSquareConfiguration;
     }
 
     public SquareConfiguration GetPieceAtSquare(string square)
     {
-        //if (!Config.ContainsKey(square)) Config[square] = null;
         return Config[square];
     }
 

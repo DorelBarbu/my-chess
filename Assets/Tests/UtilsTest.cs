@@ -69,4 +69,14 @@ public class UtilsTest
     {
         Assert.True(Utils.ConverToAlgebraicNotation(0, 3) == "D8");
     }
+
+    [Test]
+    public void TestConvertCartesianToAlgebraic()
+    {
+        Assert.True(Utils.ConvertCartesianToAlgebraic(new Vector2(0,0)) == "A8");
+        Assert.True(Utils.ConvertCartesianToAlgebraic(new Vector2(0,7)) == "H8");
+        Assert.True(Utils.ConvertCartesianToAlgebraic(new Vector2(7,0)) == "A1");
+        Assert.True(Utils.ConvertCartesianToAlgebraic(new Vector2(7,7)) == "H1");
+        Assert.True(Utils.ConvertCartesianToAlgebraic(new Vector2(1,4)) == "E7");
+    }
 }
