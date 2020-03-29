@@ -51,7 +51,7 @@ public class MovesManager
             }
         }
 
-         if(Utils.IsInsideBoard((int)upRightMove.x, (int)upRightMove.y) == true)
+        if(Utils.IsInsideBoard((int)upRightMove.x, (int)upRightMove.y) == true)
         {
             string upRightMoveAlgebraicCoordinates = Utils.ConvertCartesianToAlgebraic(upRightMove);
             if(CanPawnCapturePiece(upRightMoveAlgebraicCoordinates, pawnColor))
@@ -61,6 +61,31 @@ public class MovesManager
         }
 
         return allowedMovesForPawn;
+    }
+
+    private void AddTwoSquareStepMoveForPawn(string piecePosition, List<string> allowedMovesForPawn)
+    {
+        if(IsPawnInitialPosition(piecePosition))
+        {
+            SquareConfiguration squareConfiguration = BoardConfiguration.Instance.GetPieceAtSquare(piecePosition);
+            Vector2 pawnCartesianCoordinates = Utils.ConvertToCartesian(piecePosition[1], piecePosition[0]);
+            bool pawnColor = BoardConfiguration.Instance.GetPieceAtSquare(piecePosition).Color;
+
+            Vector2 twoSquareMove = pawnCartesianCoordinates + new Vector2(2 * squareConfiguration.MovingDirection, 0);
+
+            if (Utils.IsInsideBoard((int)twoSquareMove.x, (int)twoSquareMove.y))
+            {
+                allowedMovesForPawn.Add(Utils.ConvertCartesianToAlgebraic(twoSquareMove));
+            }
+        }
+    }
+
+    public bool IsPawnInitialPosition(string pawnPosition)
+    {
+        SquareConfiguration pawnSquareConfiguration = BoardConfiguration.Instance.GetPieceAtSquare(pawnPosition);
+
+        return pawnSquareConfiguration.MovingDirection == -1 && pawnPosition[1] == '2' ||
+            pawnSquareConfiguration.MovingDirection == 1 && pawnPosition[1] == '7';
     }
 
     public List<string> GetNextPossiblePositionsForPieceAtSquare(string piecePosition)
@@ -102,9 +127,11 @@ public class MovesManager
           
         }
 
+        // Handle the special cases for pawn separately
         if(squareConfiguration.Piece == 'P')
         {
             nextPossiblePositions.AddRange(GetDiagonalMovesForPawn(piecePosition));
+            AddTwoSquareStepMoveForPawn(piecePosition, nextPossiblePositions);
         }
 
         return nextPossiblePositions;

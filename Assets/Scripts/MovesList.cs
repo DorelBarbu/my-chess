@@ -114,7 +114,7 @@ public class MovesList
     {
         List<List<Vector2>> moves = new List<List<Vector2>>();
 
-        moves.Add(AllowedMovesGenerator.GetMovesForDirection(1, 0, 3));
+        moves.Add(AllowedMovesGenerator.GetMovesForDirection(1, 0, 2));
 
         return moves;
     }

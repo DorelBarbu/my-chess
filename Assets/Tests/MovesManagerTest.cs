@@ -148,4 +148,21 @@ public class MovesManagerTest
         Assert.True(diagonalMovesForPawn.Contains("A6") == true);
         Assert.True(diagonalMovesForPawn.Contains("C6") == true);
     }
+
+    [Test]
+
+    public void TestIsPawnInitialPosition()
+    {
+        BoardConfiguration.Instance.ResetBoardConfiguration();
+            
+        BoardConfiguration.Instance.SetPiecePosition('P', true, "B2", -1);
+
+        BoardConfiguration.Instance.SetPiecePosition('P', true, "B7", 1);
+
+        List<string> diagonalMovesForPawn = MovesManager.Instance.GetDiagonalMovesForPawn("B2");
+
+        Assert.True(MovesManager.Instance.IsPawnInitialPosition("B2") == true);
+        Assert.True(MovesManager.Instance.IsPawnInitialPosition("B7") == true);
+
+    }
 }
