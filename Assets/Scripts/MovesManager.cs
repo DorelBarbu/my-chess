@@ -95,6 +95,7 @@ public class MovesManager
         if(squareConfiguration == null)
         {
             Debug.Log("NULLLL");
+            return null;
         }
         List<List<Vector2>> allowedMovesDeltas = MovesList.Instance.AllowedMovesIndexes[squareConfiguration.Piece];
         Vector2 origin = Utils.ConvertToCartesian(piecePosition[1], piecePosition[0]);

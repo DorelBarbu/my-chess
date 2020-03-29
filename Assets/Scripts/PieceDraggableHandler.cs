@@ -77,7 +77,6 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
                 {
                     if(destinationSquarePiece != null)
                     {
-                        BoardConfiguration.Instance.RemovePieceFromGame(destinationSquarePiece.GetSquare().GetAlgebraicCoordinates());
                         destinationSquarePiece.RemoveFromGame();
                     }
                     piece.PlaceOnSquare(destinationSquare, parentTransform);

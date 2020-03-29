@@ -117,7 +117,12 @@ public class Utils
         List<string> nextPossiblePositions = MovesManager.Instance.GetNextPossiblePositionsForPieceAtSquare(piecePosition);
 
         List<Square> greenSquares = new List<Square>();
-        nextPossiblePositions.ForEach(position => greenSquares.Add(Board.SquareMapping[position]));
+
+        if(nextPossiblePositions != null)
+        {
+            nextPossiblePositions.ForEach(position => greenSquares.Add(Board.SquareMapping[position]));
+        }
+       
 
         return greenSquares;
     }
