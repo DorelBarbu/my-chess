@@ -16,5 +16,12 @@ public class SquareConfiguration
         Color = color;
     }
 
+    public SquareConfiguration(char piece, bool color, int movingDirection)
+    {
+        Piece = piece;
+        Color = color;
+        MovingDirection = movingDirection;
+    }
+
     public SquareConfiguration() {}
 }

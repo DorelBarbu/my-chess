@@ -25,10 +25,10 @@ public class Piece : MonoBehaviour {
         //FindObjectOfType<GameManager>().AddPiece(this);
     }
 
-    private void AddPieceToBoardConfiguration()
+    public void AddPieceToBoardConfiguration()
     {
         //Debug.Log("Algebraic notation of " + name + " : " + GetSquare().GetAlgebraicCoordinates());
-        BoardConfiguration.Instance.SetPiecePosition(Constants.PIECE_MAPPING[type], Constants.COLOR_MAPPING[color], GetSquare().GetAlgebraicCoordinates());
+        BoardConfiguration.Instance.SetPiecePosition(Constants.PIECE_MAPPING[type], Constants.COLOR_MAPPING[color], GetSquare().GetAlgebraicCoordinates(), movingDirection);
     }
 
     public void MatchPiecePositionToSquare()
@@ -83,11 +83,6 @@ public class Piece : MonoBehaviour {
     
     public void PlaceOnSquare(Square destinationSquare, Transform parentTransform)
     {
-        Piece overlappingPiece = destinationSquare.GetPiece();
-        if (overlappingPiece)
-        {
-            Destroy(overlappingPiece.gameObject);
-        }
         parentTransform.gameObject.GetComponent<Square>().SetOccupied(false);
         Utils.PlaceOnObject(gameObject, destinationSquare.gameObject);
         destinationSquare.SetOccupied(true);
@@ -108,5 +103,10 @@ public class Piece : MonoBehaviour {
     public Square GetSquare()
     {
         return transform.parent.GetComponent<Square>();
+    }
+
+    public void RemoveFromGame()
+    {
+        Destroy(gameObject);
     }
 }

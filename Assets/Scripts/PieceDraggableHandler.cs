@@ -52,33 +52,38 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
 
     public void HandleDragFinnish()
     {
+        bool currentPlayerColor = Constants.COLOR_MAPPING[piece.GetColor()];
+
         if (destinationSquare)
         {
             destinationSquare.ResetSprite();
-            if(destinationSquare.CanMoveTo == true)
+            Piece destinationSquarePiece = destinationSquare.GetPiece();
+
+            if (destinationSquare.CanMoveTo == true)
             {
-                piece.PlaceOnSquare(destinationSquare, parentTransform);
-                //Debug.Log("Placed " + piece.name + " on " + piece.coordinates.x + " " + piece.coordinates.y);
-                if (Utils.isCheck(piece.GetColor(), gameManager) == true)
+                BoardConfiguration.Instance.MovePiece(currentSquare.GetAlgebraicCoordinates(), destinationSquare.GetAlgebraicCoordinates());
+
+                if(MovesManager.Instance.IsCheckForPlayer(currentPlayerColor))
                 {
-                    Debug.Log("You put yourself in chess " + piece.GetColor());
+                    Debug.Log("You put yourself in check");
+                    BoardConfiguration.Instance.MovePiece(destinationSquare.GetAlgebraicCoordinates(), currentSquare.GetAlgebraicCoordinates());
                     piece.RevertToPreviousPosition(parentTransform);
-                    piece.MatchPiecePositionToSquare();
-                    destinationSquare.SetOccupied(false);
+                    if(destinationSquarePiece != null)
+                    {
+                        destinationSquarePiece.AddPieceToBoardConfiguration();
+                    }
                 }
                 else
                 {
-                    ColorsEnum opponentColor = Utils.NegateColor(piece.GetColor());
-
-                    if(Utils.isCheck(opponentColor, gameManager))
+                    if(destinationSquarePiece != null)
                     {
-                        Debug.Log("You put the other player in check");
+                        BoardConfiguration.Instance.RemovePieceFromGame(destinationSquarePiece.GetSquare().GetAlgebraicCoordinates());
+                        destinationSquarePiece.RemoveFromGame();
                     }
-                    EndTurnEvent.Invoke(FindObjectOfType<GameManager>().AtMove, (Utils.isCheck(Utils.NegateColor(piece.GetColor()), gameManager)));
-                    BoardConfiguration.Instance.MovePiece(currentSquare.GetAlgebraicCoordinates(), destinationSquare.GetAlgebraicCoordinates());
+                    piece.PlaceOnSquare(destinationSquare, parentTransform);
                     currentSquare = piece.GetSquare();
+                    EndTurnEvent.Invoke(FindObjectOfType<GameManager>().AtMove, MovesManager.Instance.IsCheckForPlayer(!currentPlayerColor));
                 }
-
             }
             else
             {

@@ -48,7 +48,7 @@ public class BoardConfiguration
 
       public void SetPiecePosition(char piece, bool color, string square, int movingDirection)
     {
-        SquareConfiguration newSquareConfiguration = new SquareConfiguration(piece, color);
+        SquareConfiguration newSquareConfiguration = new SquareConfiguration(piece, color, movingDirection);
         newSquareConfiguration.MovingDirection = movingDirection;
         Config[square] = newSquareConfiguration;
     }
@@ -98,6 +98,11 @@ public class BoardConfiguration
                 Config[new string(keyChar)] = null;
             }
         }
+    }
+
+    public void RemovePieceFromGame(string square)
+    {
+        Config[square] = null;
     }
 
 }
