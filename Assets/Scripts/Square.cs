@@ -37,6 +37,12 @@ public class Square : MonoBehaviour
         set { y = value; }
     }
 
+    public void OnMouseDown()
+    {
+        Debug.Log("clicked on " + name);
+        Piece currentPiece = GetPiece();
+    }
+
     private void Awake()
     {
         uiManager = GameObject.Find(Constants.UIMANAGER).GetComponent<UIManager>();

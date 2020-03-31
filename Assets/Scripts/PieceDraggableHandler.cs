@@ -25,10 +25,16 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
 
     public void HandleDragStart()
     {
+        Debug.Log("HandleDragStart() called");
         UIManager.DrawTrailOfPossibleMoves(gameObject);
 
         destinationSquare = null;
         parentTransform = transform.parent;
+    }
+
+    public void OnMouseDown()
+    {
+        Debug.Log("clicked on " + piece.name);
     }
 
     public IEnumerator RunDurringDragging()
