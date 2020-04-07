@@ -121,8 +121,6 @@ public class MovesManager
                         nextPossiblePositions.Add(nextSquare);
                     }
 
-
-
                     if(nextSquareConfiguration != null)
                     {
                         break;

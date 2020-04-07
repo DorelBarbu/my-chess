@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Utils
 {
-    public static GameObject GetObjectBelow(float x, float y)
+    public static GameObject GetObjectBelow(float x, float y, string objectTag)
     {
-        Collider2D col = Physics2D.OverlapPoint(new Vector2(x, y));
-        return col != null ? col.gameObject : null;
+        Collider2D[] collidersBelow = Physics2D.OverlapPointAll(new Vector2(x, y));
+        foreach(Collider2D colliderBelow in collidersBelow)
+        {
+            if(colliderBelow.gameObject.tag == objectTag)
+            {
+                return colliderBelow.gameObject;
+            }
+        }
+        return null;
     }
 
     public static void PlaceOnObject(GameObject source, GameObject target)

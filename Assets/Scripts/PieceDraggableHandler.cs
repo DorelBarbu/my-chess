@@ -35,17 +35,22 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
     public IEnumerator RunDurringDragging()
     {
         Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
-        Square currentSquare = Utils.GetObjectBelow(newPosition.x, newPosition.y).GetComponent<Square>();
+        GameObject objectBelow = Utils.GetObjectBelow(newPosition.x, newPosition.y, Constants.SQUARE);
 
-        if (destinationSquare)
+        if(objectBelow != null)
         {
-            destinationSquare.ResetSprite();
-        }
+            Square currentSquare = Utils.GetObjectBelow(newPosition.x, newPosition.y, Constants.SQUARE).GetComponent<Square>();
 
-        if (currentSquare)
-        {
-            currentSquare.Highlight();
-            destinationSquare = currentSquare;
+            if (destinationSquare)
+            {
+                destinationSquare.ResetSprite();
+            }
+
+            if (currentSquare)
+            {
+                currentSquare.Highlight();
+                destinationSquare = currentSquare;
+            }
         }
 
         yield return null;
@@ -78,6 +83,7 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
                 {
                     if(destinationSquarePiece != null)
                     {
+                        Debug.Log("Found piece on the destination square");
                         destinationSquarePiece.RemoveFromGame();
                     }
                     piece.PlaceOnSquare(destinationSquare, parentTransform);
