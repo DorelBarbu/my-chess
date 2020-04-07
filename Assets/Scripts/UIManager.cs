@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+        //Start dragging
         if(Input.GetMouseButtonDown(0))
         {
             Vector3 mouseCoordinates = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -27,21 +28,13 @@ public class UIManager : MonoBehaviour
             {
                 if(hit.gameObject.tag != "Square")
                 {
-                    //hit.gameObject.GetComponent<Draggable>().OnMouseDragg();
-                    Debug.Log("Move " + hit.gameObject.name);
                     hit.gameObject.GetComponent<Draggable>().OnMouseDragg();
                     movingPiece = hit.gameObject;
-                    /*
-                  DrawTrailOfPossibleMoves(hit.gameObject);
-                  hit.gameObject.transform.parent = null;
-                  StartCoroutine(Move(hit.gameObject));
-                  */
-
                 }
             }
         }
 
-        
+        //Stop dragging
         if (Input.GetMouseButtonUp(0))
         {
             if(movingPiece != null)

@@ -66,51 +66,12 @@ public class Utils
         List<Square> squaresUnderAttack = new List<Square>();
         foreach(Piece piece in pieces)
         {
-            squaresUnderAttack.AddRange(GetTrailOfPossibleMoves(piece.gameObject));
+            squaresUnderAttack.AddRange(GetTrailOfPossibleMovesEnhanced(piece.gameObject));
         }
 
         return squaresUnderAttack.Find(currentSquare => currentSquare.X == square.X && currentSquare.Y == square.Y) != null;
 
     }
-    public static List<Square> GetTrailOfPossibleMoves(GameObject pieceObj)
-    {
-        Piece currentPiece = pieceObj.GetComponent<Piece>();
-        List<List<Vector2>> allowedMovesDeltas = currentPiece.GetAllowedMovesDeltas();
-        Vector2 coordinates = currentPiece.GetCoordinates();
-
-        List<Square> greenSquares = new List<Square>();
-
-        foreach (List<Vector2> direction in allowedMovesDeltas)
-        {
-            foreach (Vector2 v in direction)
-            {
-                int nextX = (int)coordinates.x + (int)v.x;
-                int nextY = (int)coordinates.y + (int)v.y;
-
-                if (IsInsideBoard(nextX, nextY))
-                {
-                    char nextXChessNotation = ConvertLineToChessNotation(nextX);
-                    char nextYChessNotation = ConvertColumnToChessNotation(nextY);
-
-                    Square square = Board.GetSquareAtPosition(nextXChessNotation, nextYChessNotation);
-
-                    if (square.IsAvailableForMove(currentPiece.GetColor()))
-                    {
-                        greenSquares.Add(square);
-                    }
-
-                    if (square.GetPiece() || square.GetOccupied() == true)
-                    {
-                        break;
-                    }
-                }
-
-            }
-        }
-
-        return greenSquares;
-    }
-
     public static List<Square> GetTrailOfPossibleMovesEnhanced(GameObject pieceObj)
     {
         string piecePosition = pieceObj.GetComponent<Piece>().GetSquare().GetAlgebraicCoordinates();
