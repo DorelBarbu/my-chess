@@ -72,8 +72,12 @@ public class MovesManager
             bool pawnColor = BoardConfiguration.Instance.GetPieceAtSquare(piecePosition).Color;
 
             Vector2 twoSquareMove = pawnCartesianCoordinates + new Vector2(2 * squareConfiguration.MovingDirection, 0);
+            Vector2 oneSquareMove = pawnCartesianCoordinates + new Vector2(squareConfiguration.MovingDirection, 0);
 
-            if (Utils.IsInsideBoard((int)twoSquareMove.x, (int)twoSquareMove.y))
+            SquareConfiguration twoSquareMoveConfiguration = BoardConfiguration.Instance.GetPieceAtSquare(Utils.ConvertCartesianToAlgebraic(twoSquareMove));
+            SquareConfiguration oneSquareMoveConfiguration = BoardConfiguration.Instance.GetPieceAtSquare(Utils.ConvertCartesianToAlgebraic(oneSquareMove));
+
+            if (Utils.IsInsideBoard((int)twoSquareMove.x, (int)twoSquareMove.y) && twoSquareMoveConfiguration == null && oneSquareMoveConfiguration == null)
             {
                 allowedMovesForPawn.Add(Utils.ConvertCartesianToAlgebraic(twoSquareMove));
             }
@@ -112,10 +116,12 @@ public class MovesManager
                     string nextSquare = Utils.ConverToAlgebraicNotation((int)nextPosition.x, (int)nextPosition.y);
                     SquareConfiguration nextSquareConfiguration = BoardConfiguration.Instance.GetPieceAtSquare(nextSquare);
 
-                    if (nextSquareConfiguration == null || nextSquareConfiguration.Color != squareConfiguration.Color)
+                    if (nextSquareConfiguration == null || (nextSquareConfiguration.Color != squareConfiguration.Color && squareConfiguration.Piece != 'P'))
                     {
                         nextPossiblePositions.Add(nextSquare);
                     }
+
+
 
                     if(nextSquareConfiguration != null)
                     {
