@@ -20,6 +20,7 @@ public class Utils
     {
         //Decoupling the piece from the parent square
         gameObject.transform.parent = null;
+        newPosition.z = 3;
         gameObject.transform.position = newPosition;
     }
 
@@ -113,7 +114,7 @@ public class Utils
     public static List<Square> GetTrailOfPossibleMovesEnhanced(GameObject pieceObj)
     {
         string piecePosition = pieceObj.GetComponent<Piece>().GetSquare().GetAlgebraicCoordinates();
-        Debug.Log("Getting moves for piece at position: " + piecePosition);
+        //Debug.Log("Getting moves for piece at position: " + piecePosition);
         List<string> nextPossiblePositions = MovesManager.Instance.GetNextPossiblePositionsForPieceAtSquare(piecePosition);
 
         List<Square> greenSquares = new List<Square>();

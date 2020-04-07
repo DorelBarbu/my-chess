@@ -94,8 +94,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: 1
-  x: 0
-  y: 0
+  x: 49
+  y: 70
   isOccupied: 0
   canMoveTo: 0
 --- !u!61 &8321497886978451829
@@ -122,5 +122,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.2, y: 3.2}
+  m_Size: {x: 3.1, y: 3.1}
   m_EdgeRadius: 0

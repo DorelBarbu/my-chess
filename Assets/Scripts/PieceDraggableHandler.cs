@@ -25,17 +25,12 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
 
     public void HandleDragStart()
     {
-        Debug.Log("HandleDragStart() called");
         UIManager.DrawTrailOfPossibleMoves(gameObject);
 
         destinationSquare = null;
         parentTransform = transform.parent;
     }
 
-    public void OnMouseDown()
-    {
-        Debug.Log("clicked on " + piece.name);
-    }
 
     public IEnumerator RunDurringDragging()
     {
@@ -71,7 +66,7 @@ public class PieceDraggableHandler : MonoBehaviour, IDraggableHandler
 
                 if(MovesManager.Instance.IsCheckForPlayer(currentPlayerColor))
                 {
-                    Debug.Log("You put yourself in check");
+                    //Debug.Log("You put yourself in check");
                     BoardConfiguration.Instance.MovePiece(destinationSquare.GetAlgebraicCoordinates(), currentSquare.GetAlgebraicCoordinates());
                     piece.RevertToPreviousPosition(parentTransform);
                     if(destinationSquarePiece != null)

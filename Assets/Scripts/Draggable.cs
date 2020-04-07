@@ -28,19 +28,16 @@ public class Draggable : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void StopDragging()
     {
-        if(Input.GetMouseButtonUp(Constants.LEFT_MOUSE_BUTTON))
+        if (isDragging == true)
         {
-            // Stop the dragging
-            if(isDragging == true)
-            {
-                isDragging = false;
-                draggableHandler.HandleDragFinnish();
-            } 
+            isDragging = false;
+            draggableHandler.HandleDragFinnish();
         }
     }
-    private void OnMouseDrag()
+    
+    public void OnMouseDragg()
     {
         if(DraggingEnabled == true)
         {
@@ -49,9 +46,6 @@ public class Draggable : MonoBehaviour
                 draggableHandler.HandleDragStart();
             }
             isDragging = true;
-            Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
-            newPosition.z = 1;
-            Utils.MoveToCursor(gameObject, newPosition);
             StartCoroutine("StartUpdating");
         }
       
@@ -61,13 +55,16 @@ public class Draggable : MonoBehaviour
     {
         while(isDragging)
         {
+            
+            Utils.MoveToCursor(gameObject, GetMousePositionForDragging());
             yield return draggableHandler.RunDurringDragging();
         }
-
     }
-    
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private Vector3 GetMousePositionForDragging()
     {
-        Debug.Log("Collision detected");
+        Vector3 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+        newPosition.z = 1;
+        return newPosition;
     }
 }

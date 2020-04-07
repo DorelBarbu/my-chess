@@ -91,10 +91,8 @@ public class MovesManager
     public List<string> GetNextPossiblePositionsForPieceAtSquare(string piecePosition)
     {
         SquareConfiguration squareConfiguration = BoardConfiguration.Instance.GetPieceAtSquare(piecePosition);
-        Debug.Log(piecePosition);
         if(squareConfiguration == null)
         {
-            Debug.Log("NULLLL");
             return null;
         }
         List<List<Vector2>> allowedMovesDeltas = MovesList.Instance.AllowedMovesIndexes[squareConfiguration.Piece];
@@ -159,7 +157,7 @@ public class MovesManager
     {
         string kingSquare = BoardConfiguration.Instance.GetPiecePosition('K', playerColor);
         Dictionary<string, SquareConfiguration> boardConfiguration = BoardConfiguration.Config;
-        Debug.Log("Check if the King is in chess at position " + kingSquare);
+        //Debug.Log("Check if the King is in chess at position " + kingSquare);
 
         bool isCheck = false;
 
@@ -167,18 +165,16 @@ public class MovesManager
         {
             if (entry.Value != null && entry.Value.Color == !playerColor)
             {
-                Debug.Log("Attack from: " + entry.Value.Piece + " at " + entry.Key + " ?");
+                //Debug.Log("Attack from: " + entry.Value.Piece + " at " + entry.Key + " ?");
                 List<string> possibleMovesForCurrentPiece = GetNextPossiblePositionsForPieceAtSquare(entry.Key);
                 if(possibleMovesForCurrentPiece.Contains(kingSquare) == true)
                 {
-                    Debug.Log("Check detected");
+                    //Debug.Log("Check detected");
                     isCheck = true;
                     break;
                 }
             }
         }
-
-        if(isCheck == false) Debug.Log("Check not detected");
 
         return isCheck;
     }
@@ -188,7 +184,7 @@ public class MovesManager
         //Test if the player is in check
         if (IsCheckForPlayer(playerColor) == false)
         {
-            Debug.Log("The king is not in check");
+            //Debug.Log("The king is not in check");
             return false;
         }
 
@@ -203,12 +199,12 @@ public class MovesManager
 
                 foreach(string possibleMove in possibleMovesForCurrentPiece)
                 {
-                    Debug.Log("Trying to move " + value.Piece + " from " + squarePosition + "to " + possibleMove);
+                    //Debug.Log("Trying to move " + value.Piece + " from " + squarePosition + "to " + possibleMove);
                     SquareConfiguration pieceAtPossibleMove = BoardConfiguration.Instance.GetPieceAtSquare(possibleMove);
                     BoardConfiguration.Instance.MovePiece(squarePosition, possibleMove);
                     if(IsCheckForPlayer(playerColor) == false)
                     {
-                        Debug.Log("King can escape by moving to: " + possibleMove);
+                        //Debug.Log("King can escape by moving to: " + possibleMove);
                         BoardConfiguration.Instance.MovePiece(possibleMove, squarePosition);
                         return false;
                     }

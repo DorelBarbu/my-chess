@@ -39,7 +39,6 @@ public class Square : MonoBehaviour
 
     public void OnMouseDown()
     {
-        Debug.Log("clicked on " + name);
         Piece currentPiece = GetPiece();
     }
 

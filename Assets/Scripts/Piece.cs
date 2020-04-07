@@ -27,7 +27,6 @@ public class Piece : MonoBehaviour {
 
     public void AddPieceToBoardConfiguration()
     {
-        //Debug.Log("Algebraic notation of " + name + " : " + GetSquare().GetAlgebraicCoordinates());
         BoardConfiguration.Instance.SetPiecePosition(Constants.PIECE_MAPPING[type], Constants.COLOR_MAPPING[color], GetSquare().GetAlgebraicCoordinates(), movingDirection);
     }
 

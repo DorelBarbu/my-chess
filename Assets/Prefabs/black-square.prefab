@@ -94,9 +94,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: 0
-  coordinates: {x: 4, y: 3}
+  x: 49
+  y: 69
   isOccupied: 0
-  uiManager: {fileID: 0}
+  canMoveTo: 0
 --- !u!61 &9083133685673289219
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -121,5 +122,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.2, y: 3.2}
+  m_Size: {x: 3.1, y: 3.1}
   m_EdgeRadius: 0

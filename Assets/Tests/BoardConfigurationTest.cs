@@ -80,9 +80,7 @@ public class BoardConfigurationTest
         BoardConfiguration.Instance.SetPiecePosition('P', true, "B7", 1);
         List<string> allowedMovesForPawn = MovesManager.Instance.GetNextPossiblePositionsForPieceAtSquare("B7");
 
-        Debug.Log(allowedMovesForPawn[0]);
-        Debug.Log(allowedMovesForPawn[1]);
-         Assert.True(allowedMovesForPawn.Count == 2);
+        Assert.True(allowedMovesForPawn.Count == 2);
         Assert.True(allowedMovesForPawn.Contains("B6") == true);
         Assert.True(allowedMovesForPawn.Contains("B5") == true);
     }

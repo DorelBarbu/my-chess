@@ -9,9 +9,57 @@ public class UIManager : MonoBehaviour
     public Sprite whiteSquareSprite;
     public Sprite candidateSquareSprite;
 
+    private GameObject movingPiece = null;
+
 
     public static void DrawTrailOfPossibleMoves(GameObject pieceObj)
     {
         Board.SetGreenSquares(Utils.GetTrailOfPossibleMovesEnhanced(pieceObj));
+    }
+
+    void Update()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            Vector3 mouseCoordinates = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D[] hits = Physics2D.OverlapPointAll(new Vector2(mouseCoordinates.x, mouseCoordinates.y));
+            foreach(Collider2D hit in hits)
+            {
+                if(hit.gameObject.tag != "Square")
+                {
+                    //hit.gameObject.GetComponent<Draggable>().OnMouseDragg();
+                    Debug.Log("Move " + hit.gameObject.name);
+                    hit.gameObject.GetComponent<Draggable>().OnMouseDragg();
+                    movingPiece = hit.gameObject;
+                    /*
+                  DrawTrailOfPossibleMoves(hit.gameObject);
+                  hit.gameObject.transform.parent = null;
+                  StartCoroutine(Move(hit.gameObject));
+                  */
+
+                }
+            }
+        }
+
+        
+        if (Input.GetMouseButtonUp(0))
+        {
+            if(movingPiece != null)
+            {
+                movingPiece.gameObject.GetComponent<Draggable>().StopDragging();
+                movingPiece = null;
+            }
+        }
+        
+    }
+
+    private IEnumerator Move(GameObject obj)
+    {
+        while(movingPiece != null)
+        {
+            Utils.MoveToCursor(obj, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            yield return null;
+        }
+        
     }
 }
